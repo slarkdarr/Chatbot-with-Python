@@ -32,19 +32,48 @@ def processInput(text):
         elif (datetype == 2):
             date = datetime.datetime.strptime(tp, "%B %d %Y")
         else:
-            date = datetime.datetime.strptime(tp, "%m/%d/%Y")
-        task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.capitalize()
+            date = datetime.datetime.strptime(tp, "%d/%m/%Y")
+        task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"
+        if (t != None):
+            task += t.capitalize()+"\n"
+        else:
+            task += " \n"
         
-        f = open("../data/tasks.txt", "w")
+        f = open("../data/tasks.txt", "a+")
         f.write(task)
         f.close()
         
+        f = open("../data/tasks.txt", "r")
+        lines = f.readlines()
+        f.close()
+        
         now = datetime.datetime.now()
-        f = open("../data/logs.txt", "a")
-        response += task
+        f = open("../data/logs.txt", "a+")
+        response += responseBody(lines)
         log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
         f.write(log)
         f.close()
+        
+def responseBody(lines):
+    tasks = {}
+    body = ""
+    for line in lines:
+        line = line.replace("\n", "")
+        info = line.split("---")
+        if (info[1] in tasks.keys()):
+            tasks[info[1]].append([info[0], info[2], info[3]])
+        else:
+            tasks[info[1]] = [[info[0], info[2], info[3]]]
+        
+    times = sorted(list(tasks.keys()))
+    i = 1
+    for time in times:
+        for task in tasks[time]:
+            print(task)
+            body += "(ID: "+str(i)+") "+time+" - "+task[1]+" - "+task[0]+" - "+task[2]+"<br>"
+            i += 1
+            
+    return body
     
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
@@ -173,7 +202,6 @@ def chatPage():
             now = datetime.datetime.now()
             sDiff = (now-bar).total_seconds()
             if sDiff < 60*60*24:
-                print(sDiff)
                 if bar.day == now.day:
                     datestr = "Today"
                 else:

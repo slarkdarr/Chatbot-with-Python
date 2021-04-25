@@ -131,4 +131,4 @@ def translateBulan(bulan):
 #test6 = "Ada kuis apa saja untuk 3 minggu ke depan?"
 #test7 = "Apa saja deadline antara 03/04/2021 sampai 15/04/2021?"
 #test8 = "Tubes IF2211 String Matching pada 14 April 2021"
-#test9 = "Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/21"
+#test9 = "Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/2021"

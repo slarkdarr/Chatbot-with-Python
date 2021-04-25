@@ -71,6 +71,29 @@ def tanggalTipe(text):
                 type = 3
             except AttributeError:
                 type = None
+                
+    return type
+                
+def translateTanggal(text):
+    try:
+        tp = re.search(formatTanggal1, text)
+        d = tp.group(1)
+        m = tp.group(2)
+        y = tp.group(3)
+        
+        tanggal = d+" "+translateBulan(m)+" "+y
+    except AttributeError:
+        try:
+            tp = re.search(formatTanggal2, text)
+            d = tp.group(2)
+            m = tp.group(1)
+            y = tp.group(3)
+        
+            tanggal = d+" "+translateBulan(m)+" "+y
+        except AttributeError:
+            tanggal = text
+        
+    return tanggal
     
 def pertanyaan(text):
     try:

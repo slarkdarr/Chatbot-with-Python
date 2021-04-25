@@ -23,14 +23,25 @@ def processInput(text):
         print("pertanyaan")
     else:
         tp = p.tanggalPada(text)
-        response = "[TASK BERHASIL DICATAT]"
-        response += "<br>"+j.capitalize()+" pada "+tp+" untuk "+m+": "+t.capitalize()+" berhasil dicatat"
+        response = "[TASK BERHASIL DICATAT]<br>"
+        
+        datetype = p.tanggalTipe(tp)
+        tp = p.translateTanggal(tp)
+        if (datetype == 1):
+            date = datetime.datetime.strptime(tp, "%d %B %Y")
+        elif (datetype == 2):
+            date = datetime.datetime.strptime(tp, "%B %d %Y")
+        else:
+            date = datetime.datetime.strptime(tp, "%m/%d/%Y")
+        task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.capitalize()
+        
         f = open("../data/tasks.txt", "w")
-        task = 
-        date_time_obj = datetime.datetime.strptime(line[1:20], "%m/%d/%Y %H:%M:%S")
+        f.write(task)
+        f.close()
         
         now = datetime.datetime.now()
         f = open("../data/logs.txt", "a")
+        response += task
         log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
         f.write(log)
         f.close()

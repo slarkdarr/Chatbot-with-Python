@@ -4,10 +4,7 @@ import parser as p
 from flask import Flask, render_template, flash, request, url_for, redirect
 from werkzeug.utils import secure_filename
 
-DATA_FOLDER = '/data'
-ALLOWED_EXTENSIONS = {'txt','pdf'}
 app = Flask(__name__)
-app.config['DATA_FOLDER'] = DATA_FOLDER
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 @app.route('/')#, methods = ['GET', 'POST'])
@@ -28,16 +25,19 @@ def processInput(text):
         tp = p.tanggalPada(text)
         response = "[TASK BERHASIL DICATAT]"
         response += "<br>"+j.capitalize()+" pada "+tp+" untuk "+m+": "+t.capitalize()+" berhasil dicatat"
+        f = open("../data/tasks.txt", "w")
+        task = 
+        date_time_obj = datetime.datetime.strptime(line[1:20], "%m/%d/%Y %H:%M:%S")
         
         now = datetime.datetime.now()
-        f = open("./data/logs.txt", "a")
+        f = open("../data/logs.txt", "a")
         log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
         f.write(log)
         f.close()
     
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
-    f = open("./data/logs.txt", "a")
+    f = open("../data/logs.txt", "a")
     
     if request.method == "POST":
         msg = request.form.get("messageInput").lstrip()
@@ -48,7 +48,7 @@ def chatPage():
             f.close()
             processInput(msg)
     
-    f = open("./data/logs.txt", "r")
+    f = open("../data/logs.txt", "r")
     chatLogs = f.readlines()
     
     html = ''

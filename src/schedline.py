@@ -23,7 +23,7 @@ def processInput(text):
         print("pertanyaan")
     else:
         tp = p.tanggalPada(text)
-        response = "[TASK BERHASIL DICATAT]<br>"
+        response = "<b>[TASK BERHASIL DICATAT]</b><br>"
         
         datetype = p.tanggalTipe(tp)
         tp = p.translateTanggal(tp)

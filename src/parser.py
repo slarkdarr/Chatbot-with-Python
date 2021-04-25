@@ -5,6 +5,57 @@ formatTanggal2 = '([a-zA-Z]+) ([0-3]?[0-9]) ([0-9]{4})' #bulan tanggal tahun
 formatTanggal3 = '([0-3][0-9])/([0-9][0-9])/([0-9]{4})' #DD/MM/YYYY
 formatJenis = '([Tt]ubes|[Tt]ucil|[Kk]uis|[Uu]jian|[Pp]raktikum)'
 
+def bm(text, pattern):
+    lastx = {}
+    lenP = len(pattern)
+    lenT = len(text)
+    i = lenP-1
+    j = lenP-1
+    found = False
+    
+    while (i < lenT and not found):
+        j = lenP-1
+        found = True
+        #print(text)
+        #print(" "*(i-(lenP-1))+pattern)
+        #print(i)
+        while (found and j >= 0):
+            if (pattern[j] != text[i]):
+                #print(j)
+                found = False
+            else:
+                i -= 1
+                j -= 1
+        
+        if (not found):
+            if (text[i] not in lastx.keys()):
+                k = lenP-1
+                while (k >= 0 and pattern[k] != text[i]):
+                    k -= 1
+                lastx[text[i]] = k
+                    
+            if (lastx[text[i]] >= 0):
+                if (lastx[text[i]] < j):
+                    i += j-lastx[text[i]]
+                    #print("case 1")
+                else:
+                    i += lenP-j
+                    #print("case 2")
+            else:
+                i += lenP
+                #print("case 3") 
+        #print()
+        
+        if (i >= lenT):
+            return -1
+    
+    i += 1
+    #print(text)
+    #print(" "*(i)+pattern)
+    #print()
+    
+    return i
+
 def objek(text):
     try:
         o = re.search(formatJenis+' (.+?) pada', text).group(2)
@@ -73,6 +124,18 @@ def tanggalTipe(text):
                 type = None
                 
     return type
+
+def duaTanggal(text):
+    try:
+        # /(<formatTanggal1>|<formatTanggal2>|<formatTanggal3>) .+ (<formatTanggal1>|<formatTanggal2>|<formatTanggal3>)/g
+        dt = re.search('('+formatTanggal1+'|'+formatTanggal2+'|'+formatTanggal3+') .+ ('+formatTanggal1+'|'+formatTanggal2+'|'+formatTanggal3+')', text)
+        t1 = dt.group(1)
+        t2 = dt.group(11)
+    except AttributeError:
+        t1 = None
+        t2 = None
+    
+    return t1, t2
                 
 def translateTanggal(text):
     try:
@@ -132,3 +195,12 @@ def translateBulan(bulan):
 #test7 = "Apa saja deadline antara 03/04/2021 sampai 15/04/2021?"
 #test8 = "Tubes IF2211 String Matching pada 14 April 2021"
 #test9 = "Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/2021"
+#test10 = "Apa saja deadline antara 03/04/2021 sampai 15/04/2021?"
+#test11 = "Apa saja deadline antara 03 April 2021 sampai 15/04/2021?"
+#test12 = "Apa saja deadline antara 03/04/2021 sampai April 15 2021?"
+text1 = "abcdefdbaec"
+pattern1 = "bae"
+text2 = "a pattern matching algorithm"
+pattern2 = "rithm"
+text3 = "bxaxyucwax"
+pattern3 = "cwax"

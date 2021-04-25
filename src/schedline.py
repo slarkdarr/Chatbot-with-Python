@@ -15,62 +15,163 @@ def mainPage():
     return render_template('mainpage.html')
     
 def processInput(text):
-    o = p.objek(text)
-    m = p.matkul(o)
-    t = p.topik(o)
-    j = p.jenis(text)
-    if (p.pertanyaan(text)):
-        print("pertanyaan")
-    else:
+    text = text.strip()
+    deadlineFlag = max(p.bm(text, "deadline"), p.bm(text, "Deadline"))
+    kuisFlag = max(p.bm(text, "kuis"), p.bm(text, "Kuis"))
+    tubesFlag = max(p.bm(text, "tubes"), p.bm(text, "Tubes"))
+    tucilFlag = max(p.bm(text, "tucil"), p.bm(text, "Tucil"))
+    ujianFlag = max(p.bm(text, "ujian"), p.bm(text, "Ujian"))
+    praktikumFlag = max(p.bm(text, "praktikum"), p.bm(text, "Praktikum"))
+    tugasFlag = max(p.bm(text, "tugas"), p.bm(text, "Tugas"))
+    kapanFlag = max(p.bm(text, "kapan"), p.bm(text, "Kapan"))
+    pertanyaanFlag = (p.bm(text, "?") == len(text)-1)
+    
+    if (pertanyaanFlag):
+        if (kapanFlag != -1):
+            print("Kapan")
+            #read tasks
+            #check parameter tipe (kuis/tubes/dll/none)
+            #iterate tasks
+            #jika tipe sama atau tipe none, tambahkan deadline dan tipe ke response
+            #write response ke logs.txt
+        elif (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1):
+            hariIniFlag = p.bm(text, "hari ini")
+            hariFlag = p.bm(text, "hari")
+            mingguFlag = p.bm(text, "minggu")
+            today = datetime.datetime.now().date()
+            mind = today
+            maxd = None
+            if (hariIniFlag != -1):
+                maxd = today
+            elif (hariFlag != -1):
+                n = p.nWaktu(text)
+                maxd = today+datetime.timedelta(days=n)
+            elif (mingguFlag != -1):
+                n = p.nWaktu(text)
+                maxd = today+datetime.timedelta(days=7*n)
+            else:
+                d1, d2 = p.duaTanggal(text)
+                mind = p.toDateObj(d1)
+                maxd = p.toDateObj(d2)
+            
+            m = p.matkul(text)
+            print(tugasFlag)
+            if kuisFlag != -1:
+                j = text[kuisFlag:kuisFlag+4].capitalize()
+            elif tubesFlag != -1:
+                j = text[tubesFlag:tubesFlag+5].capitalize()
+            elif tucilFlag != -1:
+                j = text[tucilFlag:tucilFlag+5].capitalize()
+            elif ujianFlag != -1:
+                j = text[ujianFlag:ujianFlag+5].capitalize()
+            elif praktikumFlag != -1:
+                j = text[praktikumFlag:praktikumFlag+9].capitalize()
+            elif tugasFlag != -1:
+                j = text[tugasFlag:tugasFlag+5].capitalize()
+            else:
+                j = None
+            now = datetime.datetime.now()
+            f = open("../data/logs.txt", "a+")
+            body = responseBody(mindate=mind, maxdate=maxd, matkul=m, jenis=j)
+            if (body != ""):
+                response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+            else:
+                response = "Tidak ada"
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
+        else:
+            print("Bad command")
+            #error handling
+            
+    elif (kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1):
+        o = p.objek(text)
+        m = p.matkul(o)
+        t = p.topik(o)
+        if kuisFlag != -1:
+            j = text[kuisFlag:kuisFlag+4].capitalize()
+        elif tubesFlag != -1:
+            j = text[tubesFlag:tubesFlag+5].capitalize()
+        elif tucilFlag != -1:
+            j = text[tucilFlag:tucilFlag+5].capitalize()
+        elif ujianFlag != -1:
+            j = text[ujianFlag:ujianFlag+5].capitalize()
+        else:
+            j = text[praktikumFlag:praktikumFlag+9].capitalize()
+        
+        #read, process tanggal
         tp = p.tanggalPada(text)
-        response = "<b>[TASK BERHASIL DICATAT]</b><br>"
+        print(tp)
+        date = p.toDateObj(tp)
         
-        datetype = p.tanggalTipe(tp)
-        tp = p.translateTanggal(tp)
-        if (datetype == 1):
-            date = datetime.datetime.strptime(tp, "%d %B %Y")
-        elif (datetype == 2):
-            date = datetime.datetime.strptime(tp, "%B %d %Y")
+        if (m == None or t == None or j == None or tp == None):
+            print("Bad command")
+            #error handling
         else:
-            date = datetime.datetime.strptime(tp, "%d/%m/%Y")
-        task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"
-        if (t != None):
-            task += t.capitalize()+"\n"
-        else:
-            task += " \n"
+            #write task, format "<Jenis>---<tanggal>---<matkul>---<topik>" dengan "---" sebagai separator karena kemungkinan kecil untuk menjadi input
+            task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.capitalize()+"\n"
         
-        f = open("../data/tasks.txt", "a+")
-        f.write(task)
-        f.close()
+            f = open("../data/tasks.txt", "a+")
+            f.write(task)
+            f.close()
         
-        f = open("../data/tasks.txt", "r")
-        lines = f.readlines()
-        f.close()
+            now = datetime.datetime.now()
+            f = open("../data/logs.txt", "a+")
+            response = "<b>[TASK BERHASIL DICATAT]</b><br>"
+            response += responseBody()
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
         
-        now = datetime.datetime.now()
-        f = open("../data/logs.txt", "a+")
-        response += responseBody(lines)
-        log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-        f.write(log)
-        f.close()
-        
-def responseBody(lines):
+def loadTasks():
+    #read data
+    f = open("../data/tasks.txt", "r")
+    lines = f.readlines()
+    f.close()
+    
+    #gunakan dictionary, {<date1>: [<task1>, <task2>, ...], <date2>: [<task3>, <task4>, ...], ...}
     tasks = {}
-    body = ""
+    
     for line in lines:
+        #abaikan newline
         line = line.replace("\n", "")
+        #separator "---"
         info = line.split("---")
         if (info[1] in tasks.keys()):
+            #jika tanggal sudah di dictionary, tambahkan task ke values
             tasks[info[1]].append([info[0], info[2], info[3]])
         else:
+            #jika tidak, inisialisasi entri tanggal di dictionary dengan value = task kini
             tasks[info[1]] = [[info[0], info[2], info[3]]]
-        
+    
+    return tasks
+    
+def responseBody(mindate=None, maxdate=None, matkul=None, jenis=None):
+    body = ""
+    tasks = loadTasks()
+    
     times = sorted(list(tasks.keys()))
     i = 1
     for time in times:
+        date = datetime.datetime.strptime(time, "%m/%d/%Y").date()
+        validDate = True
+        if (mindate != None):
+            validDate = validDate and (date >= mindate)
+        if (maxdate != None):
+            validDate = validDate and (date <= maxdate)
+        
         for task in tasks[time]:
-            print(task)
-            body += "(ID: "+str(i)+") "+time+" - "+task[1]+" - "+task[0]+" - "+task[2]+"<br>"
+            validObj = True
+            if (matkul != None):
+                validObj = validObj and (matkul == task[1])
+            if (jenis != None):
+                if (jenis != "Tugas"):
+                    validObj = validObj and (jenis == task[0])
+                else:
+                    validObj = validObj and ((task[0] == "Tubes") or (task[0] == "Tucil"))
+            
+            if (validDate and validObj):
+                body += "(ID: "+str(i)+") "+date.strftime("%d/%m/%Y")+" - "+task[1]+" - "+task[0]+" - "+task[2]+"<br>"
             i += 1
             
     return body

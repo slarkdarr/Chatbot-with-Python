@@ -2,17 +2,3 @@ U04/24/2021 23:14:03Halo!
 B04/24/2021 23:16:34Halo juga!
 U04/24/2021 23:23:28Apa kabar?
 B04/24/2021 23:40:00Baik!
-U04/25/2021 16:11:56tolong ingetin ada Tubes IF2211 String Matching pada 11 April 2021
-B04/25/2021 16:11:56[TASK BERHASIL DICATAT]<br>(ID: 1) 04/11/2021 - IF2211 - Tubes - String matching<br>
-U04/25/2021 16:12:01Kuis IF2230 pada 14/04/2021
-U04/25/2021 16:13:51Kuis IF2230 pada 14/04/2021
-U04/25/2021 16:15:39Kuis IF2230 pada 14/04/2021
-U04/25/2021 16:15:56Kuis IF2230 pada 14/04/2021
-U04/25/2021 16:20:25Kuis IF2230 pada 14/04/2021
-B04/25/2021 16:20:25[TASK BERHASIL DICATAT]<br>(ID: 1) 04/11/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 04/14/2021 - IF2230 - Kuis -  <br>
-U04/25/2021 16:20:47Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/21
-U04/25/2021 16:21:16Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/21
-U04/25/2021 16:21:28Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/2021
-B04/25/2021 16:21:28[TASK BERHASIL DICATAT]<br>(ID: 1) 04/11/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 04/14/2021 - IF2230 - Kuis -  <br>(ID: 3) 04/22/2021 - IF2220 - Tucil - Bab 2<br>
-U04/25/2021 16:21:38Tubes IF2211 String Matching pada 14 April 2021
-B04/25/2021 16:21:38[TASK BERHASIL DICATAT]<br>(ID: 1) 04/11/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 04/14/2021 - IF2230 - Kuis -  <br>(ID: 3) 04/14/2021 - IF2211 - Tubes - String matching<br>(ID: 4) 04/22/2021 - IF2220 - Tucil - Bab 2<br>

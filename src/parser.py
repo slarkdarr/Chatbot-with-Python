@@ -1,8 +1,10 @@
 import re
+import datetime
 
 formatTanggal1 = '([0-3]?[0-9]) ([a-zA-Z]+) ([0-9]{4})' #tanggal bulan tahun
 formatTanggal2 = '([a-zA-Z]+) ([0-3]?[0-9]) ([0-9]{4})' #bulan tanggal tahun
-formatTanggal3 = '([0-3][0-9])/([0-9][0-9])/([0-9]{4})' #DD/MM/YYYY
+formatTanggal3 = '([0-3][0-9])/([0-1][0-9])/([0-9]{4})' #DD/MM/YYYY
+formatTanggal4 = '([0-1][0-9])/([0-3][0-9])/([0-9]{4})' #MM/DD/YYYY, bukan untuk user input
 formatJenis = '([Tt]ubes|[Tt]ucil|[Kk]uis|[Uu]jian|[Pp]raktikum)'
 
 def bm(text, pattern):
@@ -21,7 +23,6 @@ def bm(text, pattern):
         #print(i)
         while (found and j >= 0):
             if (pattern[j] != text[i]):
-                #print(j)
                 found = False
             else:
                 i -= 1
@@ -36,7 +37,7 @@ def bm(text, pattern):
                     
             if (lastx[text[i]] >= 0):
                 if (lastx[text[i]] < j):
-                    i += j-lastx[text[i]]
+                    i += lenP-lastx[text[i]]-1
                     #print("case 1")
                 else:
                     i += lenP-j
@@ -50,19 +51,18 @@ def bm(text, pattern):
             return -1
     
     i += 1
-    #print(text)
-    #print(" "*(i)+pattern)
-    #print()
+    
+    #print("Loc:", i)
     
     return i
 
 def objek(text):
     try:
         o = re.search(formatJenis+' (.+?) pada', text).group(2)
-    except AttributeError:
+    except:
         try:
             o = re.search(formatJenis+' (.+?)$', text).group(2)
-        except AttributeError:
+        except:
             o = None
         
     return o
@@ -70,7 +70,7 @@ def objek(text):
 def matkul(text):
     try:
         s = re.search('([A-Z]{2}[0-9]{4}) ?(.*)$', text).group(1)
-    except AttributeError:
+    except:
         s = None
         
     return s
@@ -78,7 +78,7 @@ def matkul(text):
 def topik(text):
     try:
         t = re.search('([A-Z]{2}[0-9]{4}) ?(.+)$', text).group(2)
-    except AttributeError:
+    except:
         t = None
         
     return t
@@ -86,95 +86,154 @@ def topik(text):
 def jenis(text):
     try:
         j = re.search(formatJenis, text).group(0)
-    except AttributeError:
-        try:
-            j = re.search('[Dd]eadline', text).group(0)
-        except AttributeError:
-            j = None
+    except:
+        j = None
         
     return j
 
 def tanggalPada(text):
     try:
         tp = re.search('pada ([a-zA-Z]+), (.+?)$', text).group(2)
-    except AttributeError:
+    except:
         try:
             tp = re.search('pada (.+?),', text).group(1)
-        except AttributeError:
+        except:
             try:
                 tp = re.search('pada (.+?)$', text).group(1)
-            except AttributeError:
+            except:
                 tp = None
         
     return tp
     
 def tanggalTipe(text):
+    global formatTanggal1
+    global formatTanggal2
+    global formatTanggal3
+    global formatTanggal4
+    
+    tipe = None
+    
     try:
-        tp = re.search(formatTanggal1, text).group(0)
-        type = 1
-    except AttributeError:
+        tanggal = re.search(formatTanggal1, text).group(0)
+        if (tanggal != None):
+            tipe = 1
+    except:
         try:
-            tp = re.search(formatTanggal2, text).group(0)
-            type = 2
-        except AttributeError:
+            tanggal = re.search(formatTanggal2, text).group(0)
+            if (tanggal != None):
+                tipe = 2
+        except:
             try:
-                tp = re.search(formatTanggal3, text).group(0)
-                type = 3
-            except AttributeError:
-                type = None
+                tanggal = re.search(formatTanggal3, text).group(0)
+                if (tanggal != None):
+                    tipe = 3
+            except:
+                try:
+                    tanggal = re.search(formatTanggal4, text).group(0)
+                    if (tanggal != None):
+                        tipe = 4
+                except:
+                    tipe = None
                 
-    return type
+    return tipe
 
 def duaTanggal(text):
+    global formatTanggal1
+    global formatTanggal2
+    global formatTanggal3
+    
     try:
         # /(<formatTanggal1>|<formatTanggal2>|<formatTanggal3>) .+ (<formatTanggal1>|<formatTanggal2>|<formatTanggal3>)/g
         dt = re.search('('+formatTanggal1+'|'+formatTanggal2+'|'+formatTanggal3+') .+ ('+formatTanggal1+'|'+formatTanggal2+'|'+formatTanggal3+')', text)
         t1 = dt.group(1)
         t2 = dt.group(11)
-    except AttributeError:
+    except:
         t1 = None
         t2 = None
     
     return t1, t2
                 
 def translateTanggal(text):
-    try:
-        tp = re.search(formatTanggal1, text)
-        d = tp.group(1)
-        m = tp.group(2)
-        y = tp.group(3)
-        
-        tanggal = d+" "+translateBulan(m)+" "+y
-    except AttributeError:
-        try:
-            tp = re.search(formatTanggal2, text)
-            d = tp.group(2)
-            m = tp.group(1)
-            y = tp.group(3)
-        
-            tanggal = d+" "+translateBulan(m)+" "+y
-        except AttributeError:
-            tanggal = text
-        
-    return tanggal
+    global formatTanggal1
+    global formatTanggal2
+    global formatTanggal3
     
+    try:
+        tanggal = re.search(formatTanggal1, text)
+        d = tanggal.group(2)
+        m = tanggal.group(1)
+        y = tanggal.group(3)
+        
+        tanggalRes = translateBulan(m)+" "+d+" "+y
+    except:
+        try:
+            tanggal = re.search(formatTanggal2, text)
+            d = tanggal.group(1)
+            m = tanggal.group(2)
+            y = tanggal.group(3)
+        
+            tanggalRes = d+" "+translateBulan(m)+" "+y
+        except:
+            tanggalRes = text
+        
+    return tanggalRes
+
+def toDateObj(tanggal, datetype=None):
+        if (datetype == None):
+            datetype = tanggalTipe(tanggal)
+        tanggal = translateTanggal(tanggal)
+        if (datetype == 1):
+            date = datetime.datetime.strptime(tanggal, "%d %B %Y")
+        elif (datetype == 2):
+            date = datetime.datetime.strptime(tanggal, "%B %d %Y")
+        elif (datetype == 3):
+            try:
+                date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+            except:
+                date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
+        elif (datetype == 4):
+            try:
+                date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
+            except:
+                date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+        else:
+            date = None
+            
+        if (date != None):
+            date = date.date()
+            
+        return date
+
+def nWaktu(text):
+    try:
+        n = re.search('([0-9]+) (minggu|hari)', text).group(1)
+        if (n != None):
+            n = int(n)
+    except:
+        n = None
+    
+    return n
+
 def pertanyaan(text):
     try:
-        tp = re.search('?$', text).group(0)
+        p = re.search('?$', text).group(0)
     except:
-        tp = None
+        p = None
     
-    return (tp != None)
+    return (p != None)
     
 def task(text):
     try:
-        tp = int(re.search('[Tt]ask ([0-9]+)', text).group(1))
-    except AttributeError:
-        tp = None
+        task = re.search('[Tt]ask ([0-9]+)', text).group(1)
+        if (task != None):
+            task = int(task)
+    except:
+        task = None
         
-    return None
+    return task
     
 def translateBulan(bulan):
+    bulan = bulan.capitalize()
     listbulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
     listmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
@@ -185,22 +244,3 @@ def translateBulan(bulan):
         month = None
     
     return month
-    
-#test1 = "tolong ingetin ada Tubes IF2211 String Matching pada 11 April 2021"
-#test2 = "Kuis IF2230 pada 14/04/2021"
-#test3 = "Tolong ingatkan ada Ujian IF2240 Bab 10 pada Senin, 12 Mei 2021"
-#test4 = "Apa saja deadline yang dimiliki sejauh ini?"
-#test5 = "3 minggu ke depan ada kuis apa saja?"
-#test6 = "Ada kuis apa saja untuk 3 minggu ke depan?"
-#test7 = "Apa saja deadline antara 03/04/2021 sampai 15/04/2021?"
-#test8 = "Tubes IF2211 String Matching pada 14 April 2021"
-#test9 = "Halo bot, tolong ingetin kalau ada Tucil IF2220 Bab 2 pada 22/04/2021"
-#test10 = "Apa saja deadline antara 03/04/2021 sampai 15/04/2021?"
-#test11 = "Apa saja deadline antara 03 April 2021 sampai 15/04/2021?"
-#test12 = "Apa saja deadline antara 03/04/2021 sampai April 15 2021?"
-text1 = "abcdefdbaec"
-pattern1 = "bae"
-text2 = "a pattern matching algorithm"
-pattern2 = "rithm"
-text3 = "bxaxyucwax"
-pattern3 = "cwax"

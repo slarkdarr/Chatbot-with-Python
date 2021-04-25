@@ -160,19 +160,19 @@ def translateTanggal(text):
     
     try:
         tanggal = re.search(formatTanggal1, text)
-        d = tanggal.group(2)
-        m = tanggal.group(1)
+        d = tanggal.group(1)
+        m = tanggal.group(2)
         y = tanggal.group(3)
         
-        tanggalRes = translateBulan(m)+" "+d+" "+y
+        tanggalRes = d+" "+translateBulan(m)+" "+y
     except:
         try:
             tanggal = re.search(formatTanggal2, text)
-            d = tanggal.group(1)
-            m = tanggal.group(2)
+            d = tanggal.group(2)
+            m = tanggal.group(1)
             y = tanggal.group(3)
         
-            tanggalRes = d+" "+translateBulan(m)+" "+y
+            tanggalRes = translateBulan(m)+" "+d+" "+y
         except:
             tanggalRes = text
         

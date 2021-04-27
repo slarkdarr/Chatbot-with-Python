@@ -1,5 +1,5 @@
 import os
-import datetime
+from datetime import datetime, timedelta
 import msgParser as p
 from flask import Flask, render_template, flash, request, url_for, redirect
 from werkzeug.utils import secure_filename
@@ -28,30 +28,32 @@ def processInput(text):
     undurFlag = max(p.bm(text, "undur"), p.bm(text, "Undur"))
     selesaiFlag = max(p.bm(text, "selesai"), p.bm(text, "Selesai"), p.bm(text, "menyelesaikan"), p.bm(text, "Menyelesaikan"))
     bisaFlag = max(p.bm(text, " bisa "), p.bm(text, "Bisa "))
+
+    now = datetime.now()
+    f = open("../data/logs.txt", "a+")
     
     if (pertanyaanFlag):
-        if (kapanFlag != -1):
-            print("Kapan")
             #read tasks
             #check parameter tipe (kuis/tubes/dll/none)
             #iterate tasks
             #jika tipe sama atau tipe none, tambahkan deadline dan tipe ke response
             #write response ke logs.txt
-        elif (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1):
+
+        if (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1 or kapanFlag != -1):
             hariIniFlag = max(p.bm(text, "hari ini"), p.bm(text, "Hari ini"))
             hariFlag = p.bm(text, "hari")
             mingguFlag = p.bm(text, "minggu")
-            today = datetime.datetime.now().date()
+            today = datetime.now().date()
             mind = today
             maxd = None
             if (hariIniFlag != -1):
                 maxd = today
             elif (hariFlag != -1):
                 n = p.nWaktu(text)
-                maxd = today+datetime.timedelta(days=n)
+                maxd = today+timedelta(days=n)
             elif (mingguFlag != -1):
                 n = p.nWaktu(text)
-                maxd = today+datetime.timedelta(days=7*n)
+                maxd = today+timedelta(days=7*n)
             else:
                 d1, d2 = p.duaTanggal(text)
                 mind = p.toDateObj(d1)
@@ -72,73 +74,68 @@ def processInput(text):
                 j = text[tugasFlag:tugasFlag+5].capitalize()
             else:
                 j = None
-            now = datetime.datetime.now()
-            f = open("../data/logs.txt", "a+")
             body = responseBody(mindate=mind, maxdate=maxd, matkul=m, jenis=j)
             if (body != ""):
+                if (kapanFlag != -1):
+                    oneTask = p.oneTaskOnly(body)
+                    if (not oneTask):
+                        body = p.translateTanggal(body)
                 response = "<b>[DAFTAR DEADLINE]</b><br>"+body
             else:
                 response = "Tidak ada"
-            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-            f.write(log)
-            f.close()
         elif (bisaFlag != -1):
-            now = datetime.datetime.now()
-            f = open("../data/logs.txt", "a+")
             response = helpBody()
-            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-            f.write(log)
-            f.close()
         else:
-            print("Bad command")
             #error handling
+            response = "Maaf, pesan tidak dikenali"
     
-    elif (undurFlag != -1):
-        print("undur")
-        #read task number
-        #read tasks
-        #open file tasks.txt, write
-        #rewrite tasks except for task number n
-    
-    elif (selesaiFlag != -1):
+    elif (undurFlag != -1 or selesaiFlag != -1):
         nTask = p.task(text)
-        if nTask != None:
+
+        if (nTask != None):
             tasks = loadTasks()
             tasksBody = ""
             i = 1
             times = sorted(list(tasks.keys()))
-            for time in times:
-                date = datetime.datetime.strptime(time, "%m/%d/%Y").date()
-                for task in tasks[time]:
-                    if (i != nTask):
-                        tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
-                    i += 1
-                    
-            if (nTask >= 1 and nTask < i):
-                f = open("../data/tasks.txt", "w")
-                f.write(tasksBody)
-                f.close()
-            
-                now = datetime.datetime.now()
-                f = open("../data/logs.txt", "a+")
-                response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
-                log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-                f.write(log)
-                f.close()
-            else:
-                now = datetime.datetime.now()
-                f = open("../data/logs.txt", "a+")
-                response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
-                log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-                f.write(log)
-                f.close()
-        else:
-            now = datetime.datetime.now()
-            f = open("../data/logs.txt", "a+")
-            response = "<b>[ID TASK BUKAN ID YANG VALID]</b><br>"
-            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-            f.write(log)
+
+            f = open("../data/tasks.txt", "w")
+
+            if (undurFlag != -1):
+                nDate = p.translateTanggal(text)
+                nDate = datetime.strptime(nDate, '%d %B %Y')
+                for time in times:
+                    date = datetime.strptime(time, "%m/%d/%Y").date()
+                    for task in tasks[time]:
+                        if (i != nTask):
+                            tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
+                        elif (i == nTask):
+                            tasksBody += task[0]+"---"+nDate.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
+                        i += 1
+                if (nTask >= 1 and nTask < i):
+                    response = "<b>[TASK BERHASIL DIPERBAHARUI]</b><br>"
+                else:
+                    response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
+            elif (selesaiFlag != -1):
+                for time in times:
+                    date = datetime.strptime(time, "%m/%d/%Y").date()
+                    for task in tasks[time]:
+                        if (i != nTask):
+                            tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
+                        i += 1
+                if (nTask >= 1 and nTask < i):
+                    response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
+                else:
+                    response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
+
+            f.write(tasksBody)
             f.close()
+
+        else:
+            response = "<b>[ID TASK BUKAN MERUPAKAN ID YANG VALID]</b><br>"
+        #read task number
+        #read tasks
+        #open file tasks.txt, write
+        #rewrite tasks except for task number n
     
     elif (kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1):
         o = p.objek(text)
@@ -170,13 +167,12 @@ def processInput(text):
             f.write(task)
             f.close()
         
-            now = datetime.datetime.now()
-            f = open("../data/logs.txt", "a+")
             response = "<b>[TASK BERHASIL DICATAT]</b><br>"
             response += responseBody()
-            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-            f.write(log)
-            f.close()
+
+    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+    f.write(log)
+    f.close()
         
 def loadTasks():
     #read data
@@ -209,7 +205,7 @@ def responseBody(mindate=None, maxdate=None, matkul=None, jenis=None):
     i = 1
     j = 1
     for time in times:
-        date = datetime.datetime.strptime(time, "%m/%d/%Y").date()
+        date = datetime.strptime(time, "%m/%d/%Y").date()
         validDate = True
         if (mindate != None):
             validDate = validDate and (date >= mindate)
@@ -258,7 +254,7 @@ def chatPage():
     if request.method == "POST":
         msg = request.form.get("messageInput").lstrip()
         if (msg.count(" ") < len(msg)):
-            now = datetime.datetime.now()
+            now = datetime.now()
             log = "U"+now.strftime("%m/%d/%Y %H:%M:%S")+msg+"\n"
             f.write(log)
             f.close()
@@ -404,11 +400,11 @@ def chatPage():
     
     for line in chatLogs:
         type = line[0]
-        date_time_obj = datetime.datetime.strptime(line[1:20], "%m/%d/%Y %H:%M:%S")
+        date_time_obj = datetime.strptime(line[1:20], "%m/%d/%Y %H:%M:%S")
         if ((bar == None) or (date_time_obj.date() > bar.date())):
             bar = date_time_obj
             datestr = date_time_obj.strftime("%m/%d/%Y")
-            now = datetime.datetime.now()
+            now = datetime.now()
             sDiff = (now-bar).total_seconds()
             if sDiff < 60*60*24:
                 if bar.day == now.day:

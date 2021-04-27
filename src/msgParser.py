@@ -78,10 +78,6 @@ def matkul(text):
 def topik(text):
     try:
         t = re.search('([A-Z]{2}[0-9]{4}) ?(.+)$', text).group(2)
-        if (t != None):
-            t2 = re.search('\A[Tt]entang (.+)$', t)
-            if (t2 != None):
-                t = t2.group(1)
     except:
         t = None
         
@@ -97,13 +93,13 @@ def jenis(text):
 
 def tanggalPada(text):
     try:
-        tp = re.search('pada( tanggal)? ([a-zA-Z]+), (.+?)$', text).group(3)
+        tp = re.search('pada ([a-zA-Z]+), (.+?)$', text).group(2)
     except:
         try:
-            tp = re.search('pada( tanggal)? (.+?),', text).group(2)
+            tp = re.search('pada (.+?),', text).group(1)
         except:
             try:
-                tp = re.search('pada( tanggal)? (.+?)$', text).group(2)
+                tp = re.search('pada (.+?)$', text).group(1)
             except:
                 tp = None
         
@@ -178,7 +174,15 @@ def translateTanggal(text):
         
             tanggalRes = translateBulan(m)+" "+d+" "+y
         except:
-            tanggalRes = text
+            try:
+                tanggal = re.search(formatTanggal3, text)
+                d = tanggal.group(1)
+                m = tanggal.group(2)
+                y = tanggal.group(3)
+
+                tanggalRes = d+" "+translateBulan(m)+" "+y
+            except:
+                tanggalRes = text
         
     return tanggalRes
 
@@ -248,3 +252,11 @@ def translateBulan(bulan):
         month = None
     
     return month
+
+def oneTaskOnly(text):
+    try:
+        oneTask = re.search('(1\.)(.*)<br>(.*)', text).group(3)
+    except:
+        oneTask = None
+    
+    return oneTask

@@ -111,18 +111,21 @@ def processInput(text):
                 f.write(tasksBody)
                 f.close()
             
+                now = datetime.datetime.now()
                 f = open("../data/logs.txt", "a+")
                 response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
                 log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
                 f.write(log)
                 f.close()
             else:
+                now = datetime.datetime.now()
                 f = open("../data/logs.txt", "a+")
                 response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
                 log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
                 f.write(log)
                 f.close()
         else:
+            now = datetime.datetime.now()
             f = open("../data/logs.txt", "a+")
             response = "<b>[ID TASK BUKAN ID YANG VALID]</b><br>"
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"

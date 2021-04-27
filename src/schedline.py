@@ -1,6 +1,6 @@
 import os
 import datetime
-import parser as p
+import msgParser as p
 from flask import Flask, render_template, flash, request, url_for, redirect
 from werkzeug.utils import secure_filename
 
@@ -26,8 +26,7 @@ def processInput(text):
     kapanFlag = max(p.bm(text, "kapan"), p.bm(text, "Kapan"))
     pertanyaanFlag = (p.bm(text, "?") == len(text)-1)
     undurFlag = max(p.bm(text, "undur"), p.bm(text, "Undur"))
-    selesaiFlag = max(p.bm(text, "selesai"), p.bm(text, "Selesai"))
-    menyelesaikanFlag = max(p.bm(text, "menyelesaikan"), p.bm(text, "Menyelesaikan"))
+    selesaiFlag = max(p.bm(text, "selesai"), p.bm(text, "Selesai"), p.bm(text, "menyelesaikan"), p.bm(text, "Menyelesaikan"))
     
     if (pertanyaanFlag):
         if (kapanFlag != -1):
@@ -58,7 +57,6 @@ def processInput(text):
                 maxd = p.toDateObj(d2)
             
             m = p.matkul(text)
-            print(tugasFlag)
             if kuisFlag != -1:
                 j = text[kuisFlag:kuisFlag+4].capitalize()
             elif tubesFlag != -1:
@@ -93,6 +91,23 @@ def processInput(text):
         #read tasks
         #open file tasks.txt, write
         #rewrite tasks except for task number n
+    
+    elif (selesaiFlag != -1):
+        nTask = p.task(text)
+        if nTask != None:
+            tasks = loadTasks()
+            tasksBody = ""
+            i = 1
+            times = sorted(list(tasks.keys()))
+            for time in times:
+                date = datetime.datetime.strptime(time, "%m/%d/%Y").date()
+                for task in tasks[time]:
+                    if (i != nTask):
+                        tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
+                    i += 1
+            f = open("../data/tasks.txt", "w")
+            f.write(tasksBody)
+            f.close()
     
     elif (kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1):
         o = p.objek(text)
@@ -161,6 +176,7 @@ def responseBody(mindate=None, maxdate=None, matkul=None, jenis=None):
     
     times = sorted(list(tasks.keys()))
     i = 1
+    j = 1
     for time in times:
         date = datetime.datetime.strptime(time, "%m/%d/%Y").date()
         validDate = True
@@ -180,7 +196,8 @@ def responseBody(mindate=None, maxdate=None, matkul=None, jenis=None):
                     validObj = validObj and ((task[0] == "Tubes") or (task[0] == "Tucil"))
             
             if (validDate and validObj):
-                body += "(ID: "+str(i)+") "+date.strftime("%d/%m/%Y")+" - "+task[1]+" - "+task[0]+" - "+task[2]+"<br>"
+                body += str(j)+". (ID: "+str(i)+") "+date.strftime("%d/%m/%Y")+" - "+task[1]+" - "+task[0]+" - "+task[2]+"<br>"
+                j += 1
             i += 1
             
     return body
@@ -207,6 +224,16 @@ def chatPage():
     html += '    <head>\n'
     html += '        <title>SchedLINE</title>\n'
     html += '        <style>\n'
+    html += '            a.botname {\n'
+    html += '                color: inherit;\n'
+    html += '                color: ffffff;\n'
+    html += '                text-decoration: none;\n'
+    html += '            }\n'
+    html += '            div.header {\n'
+    html += '                height: 70px;\n'
+    html += '                width: 400px;\n'
+    html += '                background-color: #707070;\n'
+    html += '            }\n'
     html += '            div.chatscroll {\n'
     html += '                overflow-y: auto;\n'
     html += '                border: 1px solid black;\n'
@@ -214,6 +241,19 @@ def chatPage():
     html += '                width: 400px;\n'
     html += '                display: flex;\n'
     html += '                flex-direction: column-reverse;\n'
+    html += '            }\n'
+    html += '            table.headergrid {\n'
+    html += '                width: 400px;\n'
+    html += '            }\n'
+    html += '            td.avatarimg {\n'
+    html += '                width: 60px;\n'
+    html += '                padding: 10px;\n'
+    html += '            }\n'
+    html += '            img.avatar {\n'
+    html += '                vertical-align: middle;\n'
+    html += '                border-radius: 50%;\n'
+    html += '                height: 50px;\n'
+    html += '                width: 50px;\n'
     html += '            }\n'
     html += '            table.chat {\n'
     html += '                width: 400px;\n'
@@ -297,7 +337,12 @@ def chatPage():
     html += '        </style>\n'
     html += '    </head>\n'
     html += '    <body>\n'
-    html += '    <a style=\"text-decoration: none\" href=\"http://127.0.0.1:5000/Chat\"><h2>SchedLINE<span class=\"Searchy\"> Bot</span></h2></a>\n'
+    html += '    <div class=\"header\">\n'
+    html += '        <table class=\"headergrid\" cellspacing=0 cellpadding=0>\n'
+    html += '            <tr><td class=\"avatarimg\"><img class=\"avatar\" src=\"static/avatar.png\"></td>\n'
+    html += '            <td><p><a class=\"botname\" href=\"http://127.0.0.1:5000/Chat\"><b>SchedLINE Bot</b></a></p></td></tr>\n'    
+    html += '        </table>\n'
+    html += '    </div>\n'
     html += '    <div class=\"chatscroll\">\n'
     html += '        <table class=\"chat\">\n'
     

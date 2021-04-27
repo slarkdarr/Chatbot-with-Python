@@ -25,6 +25,9 @@ def processInput(text):
     tugasFlag = max(p.bm(text, "tugas"), p.bm(text, "Tugas"))
     kapanFlag = max(p.bm(text, "kapan"), p.bm(text, "Kapan"))
     pertanyaanFlag = (p.bm(text, "?") == len(text)-1)
+    undurFlag = max(p.bm(text, "undur"), p.bm(text, "Undur"))
+    selesaiFlag = max(p.bm(text, "selesai"), p.bm(text, "Selesai"))
+    menyelesaikanFlag = max(p.bm(text, "menyelesaikan"), p.bm(text, "Menyelesaikan"))
     
     if (pertanyaanFlag):
         if (kapanFlag != -1):
@@ -35,7 +38,7 @@ def processInput(text):
             #jika tipe sama atau tipe none, tambahkan deadline dan tipe ke response
             #write response ke logs.txt
         elif (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1):
-            hariIniFlag = p.bm(text, "hari ini")
+            hariIniFlag = max(p.bm(text, "hari ini"), p.bm(text, "Hari ini"))
             hariFlag = p.bm(text, "hari")
             mingguFlag = p.bm(text, "minggu")
             today = datetime.datetime.now().date()
@@ -83,7 +86,14 @@ def processInput(text):
         else:
             print("Bad command")
             #error handling
-            
+    
+    elif (undurFlag != -1):
+        print("undur")
+        #read task number
+        #read tasks
+        #open file tasks.txt, write
+        #rewrite tasks except for task number n
+    
     elif (kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1):
         o = p.objek(text)
         m = p.matkul(o)
@@ -101,7 +111,6 @@ def processInput(text):
         
         #read, process tanggal
         tp = p.tanggalPada(text)
-        print(tp)
         date = p.toDateObj(tp)
         
         if (m == None or t == None or j == None or tp == None):
@@ -109,7 +118,7 @@ def processInput(text):
             #error handling
         else:
             #write task, format "<Jenis>---<tanggal>---<matkul>---<topik>" dengan "---" sebagai separator karena kemungkinan kecil untuk menjadi input
-            task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.capitalize()+"\n"
+            task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.title()+"\n"
         
             f = open("../data/tasks.txt", "a+")
             f.write(task)

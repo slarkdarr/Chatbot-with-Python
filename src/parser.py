@@ -78,6 +78,10 @@ def matkul(text):
 def topik(text):
     try:
         t = re.search('([A-Z]{2}[0-9]{4}) ?(.+)$', text).group(2)
+        if (t != None):
+            t2 = re.search('\A[Tt]entang (.+)$', t)
+            if (t2 != None):
+                t = t2.group(1)
     except:
         t = None
         

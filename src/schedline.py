@@ -275,6 +275,8 @@ def chatPage():
     html += '        <style>\n'
     html += '            p.botname {\n'
     html += '                color: #373737;\n'
+    html += '                font-size: 20px;\n'
+    html += '                font-family: Arial;\n'
     html += '            }\n'
     html += '            a.botlink {\n'
     html += '                color: inherit;\n'

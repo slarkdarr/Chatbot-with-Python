@@ -2,73 +2,13 @@ U04/24/2021 23:14:03Halo!
 B04/24/2021 23:16:34Halo juga!
 U04/24/2021 23:23:28Apa kabar?
 B04/24/2021 23:40:00Baik!
-U04/27/2021 09:55:09Ada deadline apa saja untuk mata kuliah IF2230?
-B04/27/2021 09:55:09<b>[DAFTAR DEADLINE]</b><br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>
-U04/27/2021 09:55:25Ada deadline apa saja untuk mata kuliah IF2211?
-B04/27/2021 09:55:25<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 5) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 09:55:34Ada tubes apa saja?
-B04/27/2021 09:55:34<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 5) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 09:55:39Ada kuis apa saja?
-B04/27/2021 09:55:39<b>[DAFTAR DEADLINE]</b><br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>
-U04/27/2021 09:55:49Ada tugas apa saja?
-B04/27/2021 09:55:49<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 5) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 09:56:02Ada kuis apa saja untuk 2 hari ke depan?
-B04/27/2021 09:56:02<b>[DAFTAR DEADLINE]</b><br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>
-U04/27/2021 09:56:10Ada kuis apa saja untuk 1 hari ke depan?
-B04/27/2021 09:56:10<b>[DAFTAR DEADLINE]</b><br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>
-U04/27/2021 10:00:53Untuk 1 hari ke depan, ada tugas apa saja untuk IF2211?
-B04/27/2021 10:00:53<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:01:12Untuk 4 minggu ke depan, ada deadline apa saja?
-B04/27/2021 10:01:12<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 5) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:02:51Tolong ingetin ada Ujian IF2240 Bab 4 pada 14 Mei 2021
-U04/27/2021 10:03:33Tolong ingetin ada Ujian IF2240 Bab 4 pada 14 Mei 2021
-U04/27/2021 10:04:05Tolong ingetin ada Ujian IF2240 Bab 4 pada 14 Mei 2021
-B04/27/2021 10:04:05<b>[TASK BERHASIL DICATAT]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4Ujian<br>(ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 5) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:04:38Ada deadline apa saja
-U04/27/2021 10:04:43Ada deadline apa saja?
-B04/27/2021 10:04:43<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 5) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 6) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:04:45?
-U04/27/2021 10:05:23Tolong ingetin ada praktikum IF2210 Praktikum M15 pada 29 April 2021
-B04/27/2021 10:05:23<b>[TASK BERHASIL DICATAT]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum m15<br>(ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 6) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 7) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:17:20Halo bot, tolong ingatkan bahwa ada ujian IF2210 tentang Bab terakhir pada tanggal 11 Mei 2021
-B04/27/2021 10:17:20<b>[TASK BERHASIL DICATAT]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>(ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>(ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 8) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:18:40Tolong ingetin ada Ujian IF2240 Bab 5 pada 21 Mei 2021
-B04/27/2021 10:18:40<b>[TASK BERHASIL DICATAT]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>(ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>(ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 8) 17/05/2021 - IF2211 - Tubes - String matching<br>(ID: 9) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 10:35:44Tolong ingetin ada Praktikum IF2210 Praktikum M16 pada tanggal 05/05/2021
-B04/27/2021 10:35:44<b>[TASK BERHASIL DICATAT]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>(ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 6) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>(ID: 7) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>(ID: 8) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 9) 17/05/2021 - IF2211 - Tubes - String matching<br>(ID: 10) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 10:43:01Ada deadline apa saja?
-B04/27/2021 10:43:01<b>[DAFTAR DEADLINE]</b><br>(ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>(ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>(ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>(ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>(ID: 6) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>(ID: 7) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>(ID: 8) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 9) 17/05/2021 - IF2211 - Tubes - String matching<br>(ID: 10) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 10:43:25Ada deadline apa saja dari tanggal 04/05/2021 sampai 18/05/2021?
-B04/27/2021 10:43:25<b>[DAFTAR DEADLINE]</b><br>(ID: 6) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>(ID: 7) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>(ID: 8) 14/05/2021 - IF2240 - Ujian - Bab 4<br>(ID: 9) 17/05/2021 - IF2211 - Tubes - String matching<br>
-U04/27/2021 10:56:22Ada praktikum apa saja untuk IF2210?
-B04/27/2021 10:56:22<b>[DAFTAR DEADLINE]</b><br>(ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>(ID: 6) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>
-U04/27/2021 14:52:06Saya sudah menyelesaikan task 1
-U04/27/2021 14:52:19Saya sudah menyelesaikan task 1
-U04/27/2021 14:52:33Saya sudah menyelesaikan task 1
-U04/27/2021 14:52:38Ada deadline apa aja
-U04/27/2021 14:52:42ada deadline apa aja?
-B04/27/2021 14:52:42Tidak ada
-U04/27/2021 14:54:05Saya sudah menyelesaikan task 1
-U04/27/2021 14:54:44Saya sudah menyelesaikan task 1
-U04/27/2021 14:54:49Ada deadline apa aja?
-B04/27/2021 14:54:49<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>3. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>4. (ID: 4) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>5. (ID: 5) 01/05/2021 - IF2220 - Tucil - Bab 2<br>6. (ID: 6) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>7. (ID: 7) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>8. (ID: 8) 14/05/2021 - IF2240 - Ujian - Bab 4<br>9. (ID: 9) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 14:55:15Saya sudah menyelesaikan task 1
-U04/27/2021 14:55:21Ada deadline apa aja?
-B04/27/2021 14:55:21<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>3. (ID: 3) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>4. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>5. (ID: 5) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>6. (ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>7. (ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>8. (ID: 8) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 14:58:44Saya sudah menyelesaikan task 1
-U04/27/2021 14:58:50Ada deadline apa aja?
-B04/27/2021 14:58:50<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>3. (ID: 3) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>4. (ID: 4) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>5. (ID: 5) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>6. (ID: 6) 14/05/2021 - IF2240 - Ujian - Bab 4<br>7. (ID: 7) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 15:00:46Saya sudah menyelesaikan task 1
-U04/27/2021 15:00:50Ada deadline apa saja?
-B04/27/2021 15:00:50<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>2. (ID: 2) 29/04/2021 - IF2210 - Praktikum - Praktikum M15<br>3. (ID: 3) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>4. (ID: 4) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>5. (ID: 5) 14/05/2021 - IF2240 - Ujian - Bab 4<br>6. (ID: 6) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 15:10:44Task 100 sudah selesai
-U04/27/2021 15:11:21Task 100 sudah selesai
-B04/27/2021 15:11:21<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>
-U04/27/2021 15:11:32Task 0 sudah selesai
-B04/27/2021 15:11:32<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>
-U04/27/2021 15:11:37Task 4 sudah selesai
-B04/27/2021 15:11:37<b>[TASK BERHASIL DIHAPUS]</b><br>
-U04/27/2021 15:11:41Ada deadline apa saja?
-B04/27/2021 15:11:41<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>3. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>4. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>5. (ID: 5) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>6. (ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>7. (ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>8. (ID: 8) 17/05/2021 - IF2211 - Tubes - String matching<br>9. (ID: 9) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
-U04/27/2021 15:12:02Task m sudah selesai
-B04/27/2021 15:12:02<b>[ID TASK BUKAN ID YANG VALID]</b><br>
+U04/27/2021 19:43:33Ada deadline apa aja?
+B04/27/2021 19:43:33<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>3. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>4. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>5. (ID: 5) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>6. (ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>7. (ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>8. (ID: 8) 17/05/2021 - IF2211 - Tubes - String matching<br>9. (ID: 9) 21/05/2021 - IF2240 - Ujian - Bab 5<br>
+U04/27/2021 19:44:01Ada deadline apa aja untuk 5 hari ke depan?
+B04/27/2021 19:44:01<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>3. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>4. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>
+U04/27/2021 19:44:17Ada deadline apa aja dari 11/04/2021 hingga Mei 15 2021?
+B04/27/2021 19:44:17<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>3. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>4. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>5. (ID: 5) 05/05/2021 - IF2210 - Praktikum - Praktikum M16<br>6. (ID: 6) 11/05/2021 - IF2210 - Ujian - Bab Terakhir<br>7. (ID: 7) 14/05/2021 - IF2240 - Ujian - Bab 4<br>
+U04/27/2021 19:44:30Ada kuis apa aja?
+B04/27/2021 19:44:30<b>[DAFTAR DEADLINE]</b><br>1. (ID: 2) 28/04/2021 - IF2230 - Kuis - Bab 9<br>2. (ID: 3) 29/04/2021 - IF3310 - Kuis - Bab 3 sampai 4<br>
+U04/27/2021 19:44:35Ada tugas apa aja?
+B04/27/2021 19:44:35<b>[DAFTAR DEADLINE]</b><br>1. (ID: 1) 27/04/2021 - IF2211 - Tubes - String matching<br>2. (ID: 4) 01/05/2021 - IF2220 - Tucil - Bab 2<br>3. (ID: 8) 17/05/2021 - IF2211 - Tubes - String matching<br>

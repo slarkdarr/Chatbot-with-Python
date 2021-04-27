@@ -27,6 +27,7 @@ def processInput(text):
     pertanyaanFlag = (p.bm(text, "?") == len(text)-1)
     undurFlag = max(p.bm(text, "undur"), p.bm(text, "Undur"))
     selesaiFlag = max(p.bm(text, "selesai"), p.bm(text, "Selesai"), p.bm(text, "menyelesaikan"), p.bm(text, "Menyelesaikan"))
+    bisaFlag = max(p.bm(text, " bisa "), p.bm(text, "Bisa "))
     
     if (pertanyaanFlag):
         if (kapanFlag != -1):
@@ -78,6 +79,13 @@ def processInput(text):
                 response = "<b>[DAFTAR DEADLINE]</b><br>"+body
             else:
                 response = "Tidak ada"
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
+        elif (bisaFlag != -1):
+            now = datetime.datetime.now()
+            f = open("../data/logs.txt", "a+")
+            response = helpBody()
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
             f.write(log)
             f.close()
@@ -151,7 +159,7 @@ def processInput(text):
         tp = p.tanggalPada(text)
         date = p.toDateObj(tp)
         
-        if (m == None or t == None or j == None or tp == None):
+        if (m == None or t == None or j == None or tp == None or date == None):
             print("Bad command")
             #error handling
         else:
@@ -224,7 +232,25 @@ def responseBody(mindate=None, maxdate=None, matkul=None, jenis=None):
             i += 1
             
     return body
+
+def helpBody():
+    body = ""
+    body += "<b>[FITUR]</b><br>"
+    body += "1. Mencatat task<br>"
+    body += "2. Melihat daftar task<br>"
+    body += "3. Menampilkan tanggal task dan deadline tugas<br>"
+    body += "4. Mengubah tanggal task<br>"
+    body += "5. Menghapus task dari daftar<br>"
+    body += "<br>"
+    body += "<b>[DAFTAR KATA PENTING]</b><br>"
+    body += "1. Kuis<br>"
+    body += "2. Ujian<br>"
+    body += "3. Tubes<br>"
+    body += "4. Tucil<br>"
+    body += "5. Praktikum<br>"
     
+    return body
+
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
     f = open("../data/logs.txt", "a")

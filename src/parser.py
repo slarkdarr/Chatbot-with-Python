@@ -97,13 +97,13 @@ def jenis(text):
 
 def tanggalPada(text):
     try:
-        tp = re.search('pada ([a-zA-Z]+), (.+?)$', text).group(2)
+        tp = re.search('pada( tanggal)? ([a-zA-Z]+), (.+?)$', text).group(3)
     except:
         try:
-            tp = re.search('pada (.+?),', text).group(1)
+            tp = re.search('pada( tanggal)? (.+?),', text).group(2)
         except:
             try:
-                tp = re.search('pada (.+?)$', text).group(1)
+                tp = re.search('pada( tanggal)? (.+?)$', text).group(2)
             except:
                 tp = None
         

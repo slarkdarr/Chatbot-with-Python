@@ -105,8 +105,28 @@ def processInput(text):
                     if (i != nTask):
                         tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
                     i += 1
-            f = open("../data/tasks.txt", "w")
-            f.write(tasksBody)
+                    
+            if (nTask >= 1 and nTask < i):
+                f = open("../data/tasks.txt", "w")
+                f.write(tasksBody)
+                f.close()
+            
+                f = open("../data/logs.txt", "a+")
+                response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
+                log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                f.write(log)
+                f.close()
+            else:
+                f = open("../data/logs.txt", "a+")
+                response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
+                log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                f.write(log)
+                f.close()
+        else:
+            f = open("../data/logs.txt", "a+")
+            response = "<b>[ID TASK BUKAN ID YANG VALID]</b><br>"
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
             f.close()
     
     elif (kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1):

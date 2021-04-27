@@ -279,6 +279,7 @@ def chatPage():
     html += '                border-radius: 50%;\n'
     html += '                height: 50px;\n'
     html += '                width: 50px;\n'
+    html += '                background-color: #ffffff;\n'
     html += '            }\n'
     html += '            table.chat {\n'
     html += '                width: 400px;\n'

@@ -255,7 +255,7 @@ def translateBulan(bulan):
 
 def oneTaskOnly(text):
     try:
-        oneTask = re.search('(1\.)(.*)<br>(.*)', text).group(3)
+        oneTask = re.search('<br>(.*)', text).group(1)
     except:
         oneTask = None
     

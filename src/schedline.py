@@ -76,24 +76,26 @@ def levenshtein(text):
     m = len(a[0])
     n = len(b)
 
-    print (m)
-    print (n)
+    #print (m)
+    #print (n)
     
-    bb = [n][m]
-    print (a)
+    bb = [[0 for i in range (0, m)] for i in range (0, n)]
+    #print (a)
     r = [0 for i in range (n)]
     k = 0
-    for i in range (len(a)):
+    for i in range (m):
         #a[i] = calcDictDistance(a[i], 1)
-        for j in range (len(b)):
-            print(type(levenshteinDistanceDP(a[i], b[j])))
-            bb[j].append(levenshteinDistanceDP(a[i], b[j]))
-        while k < 8 :
+        for j in range (n):
+            bb[j][i] = levenshteinDistanceDP(a[0][i], b[j])
+            #print (bb[j][i])
+        while k < n :
+            #print ("...")
             if (bb[k][i]<bb[k][r[i]]):
                 r[i] = i
+            k+=1
 
-    #print (b1)
-    #print (b2)
+    #print (bb)
+    #print (r)
     #print (b3)
 
     x = []
@@ -107,11 +109,11 @@ def levenshtein(text):
             idxb = i
             break
         i += 1
+    #print (b[idxb])
+    a[0][int(min(x))] = b[idxb]
 
-    a[int(min(x)] = b[idxb]
-
-    print ("Mungkin maksud anda : " + str(a))
-        response = "Maaf, pesan tidak dikenali"
+    response = "Mungkin maksud anda : " + str(a)
+    #response = "Maaf, pesan tidak dikenali"
 
 def processInput(text):
     text = text.strip()

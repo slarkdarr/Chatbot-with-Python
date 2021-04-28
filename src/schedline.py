@@ -114,7 +114,7 @@ def processInput(text):
         #jika ada kata kunci "kapan" atau ada kata penting
         if (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1 or kapanFlag != -1):
             #check kata-kata kunci setiap sub-command
-            f = open("data/logs.txt", "a+")
+            f = open("test/logs.txt", "a+")
             hariIniFlag = max(p.bm(text, "hari ini"), p.bm(text, "Hari ini"))
             hariFlag = p.bm(text, "hari")
             mingguFlag = p.bm(text, "minggu")
@@ -143,10 +143,7 @@ def processInput(text):
                     error = True
             elif (d1 != None and d2 != None):
                 #jika bukan dua-duanya, cek jika "DATE_1 ... DATE_2"                
-                if (d1 == None or d2 == None):
-                    response = "<b>[FORMAT DATE_1 ATAU DATE_2 TIDAK DIKENALI]</b>"
-                    error = True
-                else:
+                if not (d1 == None and d2 == None):
                     mind = p.toDateObj(d1)
                     maxd = p.toDateObj(d2)
                     if (mind == None or maxd == None):
@@ -180,11 +177,13 @@ def processInput(text):
                         response = "<b>[DAFTAR DEADLINE]</b><br>"+body
                 else:
                     response = "Tidak ada"
+            else:
+                badPesan
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
             f.write(log)
             f.close()
         elif (bisaFlag != -1):
-            f = open("data/logs.txt", "a+")
+            f = open("test/logs.txt", "a+")
             response = helpBody()
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
             f.write(log)
@@ -202,7 +201,7 @@ def processInput(text):
             i = 1
             times = sorted(list(tasks.keys()))
 
-            f = open("data/tasks.txt", "w")
+            f = open("test/tasks.txt", "w")
 
             if (undurFlag != -1):
                 nDate = p.translateTanggal(text)
@@ -219,17 +218,17 @@ def processInput(text):
                             tasksBody += task[0]+"---"+nDate.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
                         i += 1
                 if (nTask >= 1 and nTask < i):
-                    f = open("data/tasks.txt", "w")
+                    f = open("test/tasks.txt", "w")
                     f.write(tasksBody)
                     f.close()
 
-                    f = open("data/logs.txt", "a+")
+                    f = open("test/logs.txt", "a+")
                     response = "<b>[TASK BERHASIL DIPERBAHARUI]</b><br>"
                     log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
                     f.write(log)
                     f.close()
                 else:
-                    f = open("data/logs.txt", "a+")
+                    f = open("test/logs.txt", "a+")
                     response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
                     log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
                     f.write(log)
@@ -243,11 +242,11 @@ def processInput(text):
                             tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
                         i += 1
                 if (nTask >= 1 and nTask < i):
-                    f = open("data/tasks.txt", "w")
+                    f = open("test/tasks.txt", "w")
                     f.write(tasksBody)
                     f.close()
 
-                    f = open("data/logs.txt", "a+")
+                    f = open("test/logs.txt", "a+")
                     response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
                     log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
                     f.write(log)
@@ -259,7 +258,7 @@ def processInput(text):
                     f.close()
 
         else:
-            f = open("data/logs.txt", "a+")
+            f = open("test/logs.txt", "a+")
             response = "<b>[ID TASK BUKAN MERUPAKAN ID YANG VALID]</b><br>"
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
             f.write(log)
@@ -295,11 +294,11 @@ def processInput(text):
             #write task, format "<Jenis>---<tanggal>---<matkul>---<topik>" dengan "---" sebagai separator karena kemungkinan kecil untuk menjadi input
             task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.title()+"\n"
         
-            f = open("data/tasks.txt", "a+")
+            f = open("test/tasks.txt", "a+")
             f.write(task)
             f.close()
 
-            f = open("data/logs.txt", "a+")
+            f = open("test/logs.txt", "a+")
             response = "<b>[TASK BERHASIL DICATAT]</b><br>"
             response += responseBody()
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
@@ -310,7 +309,7 @@ def processInput(text):
         
 def loadTasks():
     #read data
-    f = open("data/tasks.txt", "r")
+    f = open("test/tasks.txt", "r")
     lines = f.readlines()
     f.close()
     
@@ -384,7 +383,7 @@ def helpBody():
   
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
-    f = open("data/logs.txt", "a")
+    f = open("test/logs.txt", "a")
     
     if request.method == "POST":
         msg = request.form.get("messageInput").lstrip()
@@ -395,7 +394,7 @@ def chatPage():
             f.close()
             processInput(msg)
     
-    f = open("data/logs.txt", "r")
+    f = open("test/logs.txt", "r")
     chatLogs = f.readlines()
     
     html = ''

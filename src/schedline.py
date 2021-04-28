@@ -171,8 +171,8 @@ def processInput(text):
                         if (not oneTask):
                             tanggal = p.translateTanggal(body)
                             response = datetime.strptime(tanggal, "%d %m %Y").strftime("%d %B %Y")
-                        else:
-                            response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+                    else:
+                        response = "<b>[DAFTAR DEADLINE]</b><br>"+body
                 else:
                     response = "Tidak ada"
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
@@ -190,7 +190,6 @@ def processInput(text):
     
     elif (undurFlag != -1 or selesaiFlag != -1):
         nTask = p.task(text)
-        print(nTask)
 
         if (nTask != None):
             tasks = loadTasks()

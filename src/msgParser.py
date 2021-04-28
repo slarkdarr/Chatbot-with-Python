@@ -179,8 +179,8 @@ def translateTanggal(text):
                 d = tanggal.group(1)
                 m = tanggal.group(2)
                 y = tanggal.group(3)
-
-                tanggalRes = d+" "+translateBulan(m)+" "+y
+            
+                tanggalRes = d+" "+m+" "+y
             except:
                 tanggalRes = text
         
@@ -260,3 +260,16 @@ def oneTaskOnly(text):
         oneTask = None
     
     return oneTask
+
+def bodyToTanggal(body):
+    try:
+        tanggal = re.search(formatTanggal4, body)
+        d = tanggal.group(1)
+        m = tanggal.group(2)
+        y = tanggal.group(3)
+        
+        tanggalRes = d+" "+m+" "+y
+    except:
+        tanggalRes = body
+    
+    return tanggalRes

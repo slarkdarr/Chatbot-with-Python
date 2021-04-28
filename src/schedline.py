@@ -150,7 +150,6 @@ def processInput(text):
     bisaFlag = max(p.bm(text, " bisa "), p.bm(text, "Bisa "))
 
     now = datetime.now()
-    f = open("../data/logs.txt", "a+")
     
     if (pertanyaanFlag):
             #read tasks
@@ -194,24 +193,35 @@ def processInput(text):
                 j = text[tugasFlag:tugasFlag+5].capitalize()
             else:
                 j = None
+            f = open("data/logs.txt", "a+")
             body = responseBody(mindate=mind, maxdate=maxd, matkul=m, jenis=j)
             if (body != ""):
                 if (kapanFlag != -1):
                     oneTask = p.oneTaskOnly(body)
                     if (not oneTask):
-                        body = p.translateTanggal(body)
-                response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+                        tgl = p.bodyToTanggal(body)
+                        response = datetime.strptime(tgl, '%d %m %Y').strftime('%d %B %Y')
+                else:
+                    response = "<b>[DAFTAR DEADLINE]</b><br>"+body
             else:
                 response = "Tidak ada"
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
         elif (bisaFlag != -1):
+            f = open("data/logs.txt", "a+")
             response = helpBody()
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
         else:
             #error handling
-            response = levenshtein(text)
-            #response = "Maaf, pesan tidak dikenali"
+            # response = levenshtein(text)
+            response = "Maaf, pesan tidak dikenali"
     
     elif (undurFlag != -1 or selesaiFlag != -1):
         nTask = p.task(text)
+        print(nTask)
 
         if (nTask != None):
             tasks = loadTasks()
@@ -219,11 +229,11 @@ def processInput(text):
             i = 1
             times = sorted(list(tasks.keys()))
 
-            f = open("../data/tasks.txt", "w")
+            f = open("data/tasks.txt", "w")
 
             if (undurFlag != -1):
                 nDate = p.translateTanggal(text)
-                nDate = datetime.strptime(nDate, '%d %B %Y')
+                nDate = datetime.strptime(nDate, '%d %m %Y')
                 for time in times:
                     date = datetime.strptime(time, "%m/%d/%Y").date()
                     for task in tasks[time]:
@@ -233,9 +243,22 @@ def processInput(text):
                             tasksBody += task[0]+"---"+nDate.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
                         i += 1
                 if (nTask >= 1 and nTask < i):
+                    f = open("data/tasks.txt", "w")
+                    f.write(tasksBody)
+                    f.close()
+
+                    f = open("data/logs.txt", "a+")
                     response = "<b>[TASK BERHASIL DIPERBAHARUI]</b><br>"
+                    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                    f.write(log)
+                    f.close()
                 else:
+                    f = open("data/logs.txt", "a+")
                     response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
+                    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                    f.write(log)
+                    f.close()
+                
             elif (selesaiFlag != -1):
                 for time in times:
                     date = datetime.strptime(time, "%m/%d/%Y").date()
@@ -244,15 +267,27 @@ def processInput(text):
                             tasksBody += task[0]+"---"+date.strftime("%m/%d/%Y")+"---"+task[1]+"---"+task[2]+"\n"
                         i += 1
                 if (nTask >= 1 and nTask < i):
+                    f = open("data/tasks.txt", "w")
+                    f.write(tasksBody)
+                    f.close()
+
+                    f = open("data/logs.txt", "a+")
                     response = "<b>[TASK BERHASIL DIHAPUS]</b><br>"
+                    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                    f.write(log)
+                    f.close()
                 else:
                     response = "<b>[TIDAK ADA TASK DENGAN ID SESUAI]</b><br>"
-
-            f.write(tasksBody)
-            f.close()
+                    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+                    f.write(log)
+                    f.close()
 
         else:
+            f = open("data/logs.txt", "a+")
             response = "<b>[ID TASK BUKAN MERUPAKAN ID YANG VALID]</b><br>"
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
         #read task number
         #read tasks
         #open file tasks.txt, write
@@ -284,20 +319,22 @@ def processInput(text):
             #write task, format "<Jenis>---<tanggal>---<matkul>---<topik>" dengan "---" sebagai separator karena kemungkinan kecil untuk menjadi input
             task = j.capitalize()+"---"+date.strftime("%m/%d/%Y")+"---"+m+"---"+t.title()+"\n"
         
-            f = open("../data/tasks.txt", "a+")
+            f = open("data/tasks.txt", "a+")
             f.write(task)
             f.close()
-        
+
+            f = open("data/logs.txt", "a+")
             response = "<b>[TASK BERHASIL DICATAT]</b><br>"
             response += responseBody()
-
-    log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
-    f.write(log)
-    f.close()
+            log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
+            f.write(log)
+            f.close()
+    else:
+        response = "Maaf pesan tidak dikenali"    
         
 def loadTasks():
     #read data
-    f = open("../data/tasks.txt", "r")
+    f = open("data/tasks.txt", "r")
     lines = f.readlines()
     f.close()
     
@@ -371,7 +408,7 @@ def helpBody():
   
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
-    f = open("../data/logs.txt", "a")
+    f = open("data/logs.txt", "a")
     
     if request.method == "POST":
         msg = request.form.get("messageInput").lstrip()
@@ -382,7 +419,7 @@ def chatPage():
             f.close()
             processInput(msg)
     
-    f = open("../data/logs.txt", "r")
+    f = open("data/logs.txt", "r")
     chatLogs = f.readlines()
     
     html = ''
@@ -552,7 +589,7 @@ def chatPage():
     html += '        </form>\n'
     html += '    </body>\n'
     html += '</html>'
-    with open("templates/chat.html", "w", encoding="utf8") as file:
+    with open("src/templates/chat.html", "w", encoding="utf8") as file:
         file.write(html)
     
     return html #render_template('chat.html')

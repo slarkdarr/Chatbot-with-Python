@@ -71,45 +71,44 @@ def calcDictDistance(word, numWords):
     return closestWords
 
 def levenshtein(text):
-    a = [text]
+    a = [text.split()]
     b = ['deadline', 'tugas', 'kuis', 'kapan', 'tubes', 'tucil', 'ujian', 'praktikum']
-    bb = [8][]
+    m = len(a[0])
+    n = len(b)
+
+    print (m)
+    print (n)
     
-    r1 = 0
-    r2 = 0
-    r3 = 0
+    bb = [n][m]
+    print (a)
+    r = [0 for i in range (n)]
+    k = 0
     for i in range (len(a)):
         #a[i] = calcDictDistance(a[i], 1)
         for j in range (len(b)):
-            #print(levenshteinDistanceDP(a[i], b[j]))
-            if (j == 0) :
-                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
-            elif (j == 1) :
-                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
-            else :
-                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
-        if (bb[0][i]<bb[0][idxralat]):
-            r1 = i
-        if (bb[1][i]<bb[1][idxralat]):
-            r2 = i
-        if (bb[2][i]<bb[2][idxralat]):
-            r3 = i
+            print(type(levenshteinDistanceDP(a[i], b[j])))
+            bb[j].append(levenshteinDistanceDP(a[i], b[j]))
+        while k < 8 :
+            if (bb[k][i]<bb[k][r[i]]):
+                r[i] = i
 
     #print (b1)
     #print (b2)
     #print (b3)
 
-    x = [b1[idxralat], b2[ralat], b3[r]]
+    x = []
+    for i in range (n):
+        x.append(bb[i][r[i]])
     idxb = 0
 
     i = 0
     while i < len(x) :
-        if x[i] == min(b1[idxralat], b2[ralat], b3[r]):
+        if x[i] == min(x):
             idxb = i
             break
         i += 1
 
-    a[int(min(b1[idxralat], b2[ralat], b3[r])-1)] = b[idxb]
+    a[int(min(x)] = b[idxb]
 
     print ("Mungkin maksud anda : " + str(a))
         response = "Maaf, pesan tidak dikenali"

@@ -82,18 +82,24 @@ def levenshtein(text):
     bb = [[0 for i in range (0, m)] for i in range (0, n)]
     #print (a)
     r = [0 for i in range (n)]
-    k = 0
+    
     for i in range (m):
         #a[i] = calcDictDistance(a[i], 1)
         for j in range (n):
             bb[j][i] = levenshteinDistanceDP(a[0][i], b[j])
             #print (bb[j][i])
-        while k < n :
+        
+    for i in range (n):
+        k = 0
+        while k < m :
             #print ("...")
-            if (bb[k][i]<bb[k][r[i]]):
-                r[i] = i
+            #print (bb[i][k])
+            #print (bb[i][r[i]])
+            if (bb[i][k]<bb[i][r[i]]):
+                r[i] = k
+            #print (r[i])
             k+=1
-
+        #print ("ok")
     #print (bb)
     #print (r)
     #print (b3)
@@ -102,17 +108,30 @@ def levenshtein(text):
     for i in range (n):
         x.append(bb[i][r[i]])
     idxb = 0
-
+    #print (x)
+    
     i = 0
+    #print (min(x))
     while i < len(x) :
         if x[i] == min(x):
             idxb = i
             break
         i += 1
     #print (b[idxb])
-    a[0][int(min(x))] = b[idxb]
+    
+    done = 0
+    while done < m:
+        print (done)
+        if (bb[idxb][done] == min(x)) :
+            a[0][done] = b[idxb]
+            done = 99
+        done+=1
 
-    response = "Mungkin maksud anda : " + str(a)
+    if (min(x) < 4):
+        response =  "Mungkin maksud anda : " + str(a)
+    else :
+        response = "Maaf, pesan tidak dikenali"
+
     #response = "Maaf, pesan tidak dikenali"
 
 def processInput(text):

@@ -1,5 +1,4 @@
 import os
-import numpy
 from datetime import datetime, timedelta
 import msgParser as p
 from flask import Flask, render_template, flash, request, url_for, redirect
@@ -8,69 +7,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-@app.route('/')#, methods = ['GET', 'POST'])
+@app.route('/')
 def mainPage():
-    #if request.method == "POST":
-    #    n = request.form.get("message")
-    
     return render_template('mainpage.html')
 
-def levenshteinDistanceDP(A, B):
-    distances = numpy.zeros((len(A) + 1, len(B) + 1))
-
-    for i in range(len(A) + 1):
-        distances[i][0] = i
-
-    for j in range(len(B) + 1):
-        distances[0][j] = j
-        
-    a = 0
-    b = 0
-    c = 0
-    
-    for i in range(1, len(A) + 1):
-        for j in range(1, len(B) + 1):
-            if (A[i-1] == B[j-1]):
-                distances[i][j] = distances[i - 1][j - 1]
-            else:
-                a = distances[i][j - 1]
-                b = distances[i - 1][j]
-                c = distances[i - 1][j - 1]
-                
-                if (a <= b and a <= c):
-                    distances[i][j] = a + 1
-                elif (b <= a and b <= c):
-                    distances[i][j] = b + 1
-                else:
-                    distances[i][j] = c + 1
-
-    return distances[len(A)][len(B)]
-
-def calcDictDistance(word, numWords):
-    file = open('kamus.txt', 'r') 
-    lines = file.readlines() 
-    file.close()
-    dictWordDist = []
-    wordIdx = 0
-    
-    for line in lines: 
-        wordDistance = levenshteinDistanceDP(word, line.strip())
-        if wordDistance >= 10:
-            wordDistance = 9
-        dictWordDist.append(str(int(wordDistance)) + "-" + line.strip())
-        wordIdx = wordIdx + 1
-
-    closestWords = []
-    wordDetails = []
-    currWordDist = 0
-    dictWordDist.sort()
-    for i in range(numWords):
-        currWordDist = dictWordDist[i]
-        wordDetails = currWordDist.split("-")
-        closestWords.append(wordDetails[1])
-    return closestWords
-
-def levenshtein(text):
+def badPesan(text):
     a = [text.split()]
     b = ['deadline', 'tugas', 'kuis', 'kapan', 'tubes', 'tucil', 'ujian', 'praktikum']
     m = len(a[0])
@@ -86,7 +27,7 @@ def levenshtein(text):
     for i in range (m):
         #a[i] = calcDictDistance(a[i], 1)
         for j in range (n):
-            bb[j][i] = levenshteinDistanceDP(a[0][i], b[j])
+            bb[j][i] = l.levenshteinDistanceDP(a[0][i], b[j])
             #print (bb[j][i])
         
     for i in range (n):
@@ -128,14 +69,25 @@ def levenshtein(text):
         done+=1
 
     if (min(x) < 4):
-        response =  "Mungkin maksud anda : " + str(a)
+        response =  "Mungkin maksud anda :"
+        a0 = text.split()
+        for i in range(len(a0)):
+            response += " "
+            if (a0[i] != a[0][i]):
+                response += "<b>"+a[0][i]+"</b>"
+            else:
+                response += a0[i]
     else :
         response = "Maaf, pesan tidak dikenali"
 
     #response = "Maaf, pesan tidak dikenali"
+    return response
 
 def processInput(text):
+    #ignore trailing/leading whitespace
     text = text.strip()
+    #check kata-kata kunci setiap command menggunakan algoritma boyer-moore untuk exact string matching
+    #algoritma mengembalikan -1 jika tidak ditemukan, jika ditemukan mengembalikan indeks mulai substring
     deadlineFlag = max(p.bm(text, "deadline"), p.bm(text, "Deadline"))
     kuisFlag = max(p.bm(text, "kuis"), p.bm(text, "Kuis"))
     tubesFlag = max(p.bm(text, "tubes"), p.bm(text, "Tubes"))
@@ -151,60 +103,74 @@ def processInput(text):
 
     now = datetime.now()
     
+    #jika ada tanda tanya di akhir
     if (pertanyaanFlag):
-            #read tasks
-            #check parameter tipe (kuis/tubes/dll/none)
-            #iterate tasks
-            #jika tipe sama atau tipe none, tambahkan deadline dan tipe ke response
-            #write response ke logs.txt
-
+        #jika ada kata kunci "kapan" atau ada kata penting
         if (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1 or kapanFlag != -1):
+            #check kata-kata kunci setiap sub-command
             hariIniFlag = max(p.bm(text, "hari ini"), p.bm(text, "Hari ini"))
             hariFlag = p.bm(text, "hari")
             mingguFlag = p.bm(text, "minggu")
-            today = datetime.now().date()
-            mind = today
+            mind = today #menunjukan deadline minimum hari ini
             maxd = None
+            error = False
             if (hariIniFlag != -1):
+                #jika parameter berupa "hari ini", max date = hari ini
                 maxd = today
             elif (hariFlag != -1):
+                #jika bukan "hari ini" dan ada kata "hari", cek jika "N hari"
                 n = p.nWaktu(text)
-                maxd = today+timedelta(days=n)
-            elif (mingguFlag != -1):
-                n = p.nWaktu(text)
-                maxd = today+timedelta(days=7*n)
-            else:
-                d1, d2 = p.duaTanggal(text)
-                mind = p.toDateObj(d1)
-                maxd = p.toDateObj(d2)
-            
-            m = p.matkul(text)
-            if kuisFlag != -1:
-                j = text[kuisFlag:kuisFlag+4].capitalize()
-            elif tubesFlag != -1:
-                j = text[tubesFlag:tubesFlag+5].capitalize()
-            elif tucilFlag != -1:
-                j = text[tucilFlag:tucilFlag+5].capitalize()
-            elif ujianFlag != -1:
-                j = text[ujianFlag:ujianFlag+5].capitalize()
-            elif praktikumFlag != -1:
-                j = text[praktikumFlag:praktikumFlag+9].capitalize()
-            elif tugasFlag != -1:
-                j = text[tugasFlag:tugasFlag+5].capitalize()
-            else:
-                j = None
-            f = open("data/logs.txt", "a+")
-            body = responseBody(mindate=mind, maxdate=maxd, matkul=m, jenis=j)
-            if (body != ""):
-                if (kapanFlag != -1):
-                    oneTask = p.oneTaskOnly(body)
-                    if (not oneTask):
-                        tgl = p.bodyToTanggal(body)
-                        response = datetime.strptime(tgl, '%d %m %Y').strftime('%d %B %Y')
+                if (n != None):
+                    maxd = today+timedelta(days=n)
                 else:
-                    response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+                    response = "<b>[JUMLAH HARI BUKAN MERUPAKAN JUMLAH YANG VALID]</b>"
+                    error = True
+            elif (mingguFlag != -1):
+                #jika ada kata "minggu", cek jika "N minggu"
+                n = p.nWaktu(text)
+                if (n != None):
+                    maxd = today+timedelta(days=7*n)
+                else:
+                    response = "<b>[JUMLAH MINGGU BUKAN MERUPAKAN JUMLAH YANG VALID]</b>"
+                    error = True
             else:
-                response = "Tidak ada"
+                #jika bukan dua-duanya, cek jika "DATE_1 ... DATE_2"
+                d1, d2 = p.duaTanggal(text)
+                if (d1 == None or d2 == None):
+                    response = "<b>[FORMAT DATE_1 ATAU DATE_2 TIDAK DIKENALI]</b>"
+                    error = True
+                else:
+                    mind = p.toDateObj(d1)
+                    maxd = p.toDateObj(d2)
+                    if (mind == None or maxd == None):
+                        response = "<b>[FORMAT DATE_1 ATAU DATE_2 TIDAK DIKENALI]</b>"
+                        error = True
+            
+            if (not error):
+                m = p.matkul(text)
+                if kuisFlag != -1:
+                    j = text[kuisFlag:kuisFlag+4].capitalize()
+                elif tubesFlag != -1:
+                    j = text[tubesFlag:tubesFlag+5].capitalize()
+                elif tucilFlag != -1:
+                    j = text[tucilFlag:tucilFlag+5].capitalize()
+                elif ujianFlag != -1:
+                    j = text[ujianFlag:ujianFlag+5].capitalize()
+                elif praktikumFlag != -1:
+                    j = text[praktikumFlag:praktikumFlag+9].capitalize()
+                elif tugasFlag != -1:
+                    j = text[tugasFlag:tugasFlag+5].capitalize()
+                else:
+                    j = None
+                body = responseBody(mindate=mind, maxdate=maxd, matkul=m, jenis=j)
+                if (body != ""):
+                    if (kapanFlag != -1):
+                        oneTask = p.oneTaskOnly(body)
+                        if (not oneTask):
+                            body = p.translateTanggal(body)
+                    response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+                else:
+                    response = "Tidak ada"
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
             f.write(log)
             f.close()
@@ -216,8 +182,7 @@ def processInput(text):
             f.close()
         else:
             #error handling
-            # response = levenshtein(text)
-            response = "Maaf, pesan tidak dikenali"
+            response = badPesan(text)
     
     elif (undurFlag != -1 or selesaiFlag != -1):
         nTask = p.task(text)

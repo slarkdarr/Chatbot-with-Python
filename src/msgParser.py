@@ -191,19 +191,31 @@ def toDateObj(tanggal, datetype=None):
             datetype = tanggalTipe(tanggal)
         tanggal = translateTanggal(tanggal)
         if (datetype == 1):
-            date = datetime.datetime.strptime(tanggal, "%d %B %Y")
+            try:
+                date = datetime.datetime.strptime(tanggal, "%d %B %Y")
+            except:
+                date = None
         elif (datetype == 2):
-            date = datetime.datetime.strptime(tanggal, "%B %d %Y")
+            try:
+                date = datetime.datetime.strptime(tanggal, "%B %d %Y")
+            except:
+                date = None
         elif (datetype == 3):
             try:
                 date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
             except:
-                date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
+                try:
+                    date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
+                except:
+                    date = None
         elif (datetype == 4):
             try:
                 date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
             except:
-                date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+                try:
+                    date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+                except:
+                    date = None
         else:
             date = None
             

@@ -1,4 +1,5 @@
 import os
+import numpy
 from datetime import datetime, timedelta
 import msgParser as p
 from flask import Flask, render_template, flash, request, url_for, redirect
@@ -250,7 +251,41 @@ def helpBody():
 
 def levenshtein():
     response = "Maaf, pesan tidak dikenali"
+    
+def levenshteinDistanceDP(A, B):
+    distances = numpy.zeros((len(A) + 1, len(B) + 1))
 
+    for i in range(len(A) + 1):
+        distances[i][0] = i
+
+    for j in range(len(B) + 1):
+        distances[0][j] = j
+        
+    a = 0
+    b = 0
+    c = 0
+    
+    for i in range(1, len(A) + 1):
+        for j in range(1, len(B) + 1):
+            if (A[i-1] == B[j-1]):
+                distances[i][j] = distances[i - 1][j - 1]
+            else:
+                a = distances[i][j - 1]
+                b = distances[i - 1][j]
+                c = distances[i - 1][j - 1]
+                
+                if (a <= b and a <= c):
+                    distances[i][j] = a + 1
+                elif (b <= a and b <= c):
+                    distances[i][j] = b + 1
+                else:
+                    distances[i][j] = c + 1
+
+    #printDistances(distances, len(token1), len(token2))
+    return distances[len(A)][len(B)]
+
+
+  
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():
     f = open("../data/logs.txt", "a")

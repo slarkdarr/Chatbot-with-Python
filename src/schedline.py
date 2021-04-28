@@ -14,7 +14,106 @@ def mainPage():
     #    n = request.form.get("message")
     
     return render_template('mainpage.html')
+
+def levenshteinDistanceDP(A, B):
+    distances = numpy.zeros((len(A) + 1, len(B) + 1))
+
+    for i in range(len(A) + 1):
+        distances[i][0] = i
+
+    for j in range(len(B) + 1):
+        distances[0][j] = j
+        
+    a = 0
+    b = 0
+    c = 0
     
+    for i in range(1, len(A) + 1):
+        for j in range(1, len(B) + 1):
+            if (A[i-1] == B[j-1]):
+                distances[i][j] = distances[i - 1][j - 1]
+            else:
+                a = distances[i][j - 1]
+                b = distances[i - 1][j]
+                c = distances[i - 1][j - 1]
+                
+                if (a <= b and a <= c):
+                    distances[i][j] = a + 1
+                elif (b <= a and b <= c):
+                    distances[i][j] = b + 1
+                else:
+                    distances[i][j] = c + 1
+
+    return distances[len(A)][len(B)]
+
+def calcDictDistance(word, numWords):
+    file = open('kamus.txt', 'r') 
+    lines = file.readlines() 
+    file.close()
+    dictWordDist = []
+    wordIdx = 0
+    
+    for line in lines: 
+        wordDistance = levenshteinDistanceDP(word, line.strip())
+        if wordDistance >= 10:
+            wordDistance = 9
+        dictWordDist.append(str(int(wordDistance)) + "-" + line.strip())
+        wordIdx = wordIdx + 1
+
+    closestWords = []
+    wordDetails = []
+    currWordDist = 0
+    dictWordDist.sort()
+    for i in range(numWords):
+        currWordDist = dictWordDist[i]
+        wordDetails = currWordDist.split("-")
+        closestWords.append(wordDetails[1])
+    return closestWords
+
+def levenshtein(text):
+    a = [text]
+    b = ['deadline', 'tugas', 'kuis', 'kapan', 'tubes', 'tucil', 'ujian', 'praktikum']
+    bb = [8][]
+    
+    r1 = 0
+    r2 = 0
+    r3 = 0
+    for i in range (len(a)):
+        #a[i] = calcDictDistance(a[i], 1)
+        for j in range (len(b)):
+            #print(levenshteinDistanceDP(a[i], b[j]))
+            if (j == 0) :
+                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
+            elif (j == 1) :
+                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
+            else :
+                bb[j].append(levenshteinDistanceDP(a[i], b[j]))
+        if (bb[0][i]<bb[0][idxralat]):
+            r1 = i
+        if (bb[1][i]<bb[1][idxralat]):
+            r2 = i
+        if (bb[2][i]<bb[2][idxralat]):
+            r3 = i
+
+    #print (b1)
+    #print (b2)
+    #print (b3)
+
+    x = [b1[idxralat], b2[ralat], b3[r]]
+    idxb = 0
+
+    i = 0
+    while i < len(x) :
+        if x[i] == min(b1[idxralat], b2[ralat], b3[r]):
+            idxb = i
+            break
+        i += 1
+
+    a[int(min(b1[idxralat], b2[ralat], b3[r])-1)] = b[idxb]
+
+    print ("Mungkin maksud anda : " + str(a))
+        response = "Maaf, pesan tidak dikenali"
+
 def processInput(text):
     text = text.strip()
     deadlineFlag = max(p.bm(text, "deadline"), p.bm(text, "Deadline"))
@@ -88,7 +187,7 @@ def processInput(text):
             response = helpBody()
         else:
             #error handling
-            response = levenshtein()
+            response = levenshtein(text)
             #response = "Maaf, pesan tidak dikenali"
     
     elif (undurFlag != -1 or selesaiFlag != -1):
@@ -248,66 +347,7 @@ def helpBody():
     body += "5. Praktikum<br>"
     
     return body
-
-def levenshtein():
-    response = "Maaf, pesan tidak dikenali"
     
-def levenshteinDistanceDP(A, B):
-    distances = numpy.zeros((len(A) + 1, len(B) + 1))
-
-    for i in range(len(A) + 1):
-        distances[i][0] = i
-
-    for j in range(len(B) + 1):
-        distances[0][j] = j
-        
-    a = 0
-    b = 0
-    c = 0
-    
-    for i in range(1, len(A) + 1):
-        for j in range(1, len(B) + 1):
-            if (A[i-1] == B[j-1]):
-                distances[i][j] = distances[i - 1][j - 1]
-            else:
-                a = distances[i][j - 1]
-                b = distances[i - 1][j]
-                c = distances[i - 1][j - 1]
-                
-                if (a <= b and a <= c):
-                    distances[i][j] = a + 1
-                elif (b <= a and b <= c):
-                    distances[i][j] = b + 1
-                else:
-                    distances[i][j] = c + 1
-
-    #printDistances(distances, len(token1), len(token2))
-    return distances[len(A)][len(B)]
-
-def calcDictDistance(word, numWords):
-    file = open('kamus.txt', 'r') 
-    lines = file.readlines() 
-    file.close()
-    dictWordDist = []
-    wordIdx = 0
-    
-    for line in lines: 
-        wordDistance = levenshteinDistanceDP(word, line.strip())
-        if wordDistance >= 10:
-            wordDistance = 9
-        dictWordDist.append(str(int(wordDistance)) + "-" + line.strip())
-        wordIdx = wordIdx + 1
-
-    closestWords = []
-    wordDetails = []
-    currWordDist = 0
-    dictWordDist.sort()
-    for i in range(numWords):
-        currWordDist = dictWordDist[i]
-        wordDetails = currWordDist.split("-")
-        closestWords.append(wordDetails[1])
-    return closestWords
-
   
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():

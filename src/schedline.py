@@ -87,7 +87,8 @@ def processInput(text):
             response = helpBody()
         else:
             #error handling
-            response = "Maaf, pesan tidak dikenali"
+            response = levenshtein()
+            #response = "Maaf, pesan tidak dikenali"
     
     elif (undurFlag != -1 or selesaiFlag != -1):
         nTask = p.task(text)
@@ -246,6 +247,9 @@ def helpBody():
     body += "5. Praktikum<br>"
     
     return body
+
+def levenshtein():
+    response = "Maaf, pesan tidak dikenali"
 
 @app.route('/Chat', methods = ['GET', 'POST'])
 def chatPage():

@@ -54,8 +54,13 @@ def badPesan(text):
     
     i = 0
     #print (min(x))
+    minx = x[0]  
+    for num in x:
+        if num != 0 :
+            if num < minx:
+              minx = num
     while i < len(x) :
-        if x[i] == min(x):
+        if x[i] == minx:
             idxb = i
             break
         i += 1
@@ -64,12 +69,12 @@ def badPesan(text):
     done = 0
     while done < m:
         print (done)
-        if (bb[idxb][done] == min(x)) :
+        if (bb[idxb][done] == minx) :
             a[0][done] = b[idxb]
             done = 99
         done+=1
 
-    if (min(x) < 4):
+    if (minx < 4):
         response =  "Mungkin maksud anda :"
         a0 = text.split()
         for i in range(len(a0)):

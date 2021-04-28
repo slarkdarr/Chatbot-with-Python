@@ -109,20 +109,22 @@ def processInput(text):
         #jika ada kata kunci "kapan" atau ada kata penting
         if (deadlineFlag != -1 or kuisFlag != -1 or tubesFlag != -1 or tucilFlag != -1 or ujianFlag != -1 or praktikumFlag != -1 or tugasFlag != -1 or kapanFlag != -1):
             #check kata-kata kunci setiap sub-command
+            f = open("data/logs.txt", "a+")
             hariIniFlag = max(p.bm(text, "hari ini"), p.bm(text, "Hari ini"))
             hariFlag = p.bm(text, "hari")
             mingguFlag = p.bm(text, "minggu")
-            mind = today #menunjukan deadline minimum hari ini
+            mind = now.date() #menunjukan deadline minimum hari ini
             maxd = None
             error = False
+            d1, d2 = p.duaTanggal(text)
             if (hariIniFlag != -1):
                 #jika parameter berupa "hari ini", max date = hari ini
-                maxd = today
+                maxd = now.date()
             elif (hariFlag != -1):
                 #jika bukan "hari ini" dan ada kata "hari", cek jika "N hari"
                 n = p.nWaktu(text)
                 if (n != None):
-                    maxd = today+timedelta(days=n)
+                    maxd = now.date()+timedelta(days=n)
                 else:
                     response = "<b>[JUMLAH HARI BUKAN MERUPAKAN JUMLAH YANG VALID]</b>"
                     error = True
@@ -130,13 +132,12 @@ def processInput(text):
                 #jika ada kata "minggu", cek jika "N minggu"
                 n = p.nWaktu(text)
                 if (n != None):
-                    maxd = today+timedelta(days=7*n)
+                    maxd = now.date()+timedelta(days=7*n)
                 else:
                     response = "<b>[JUMLAH MINGGU BUKAN MERUPAKAN JUMLAH YANG VALID]</b>"
                     error = True
-            else:
-                #jika bukan dua-duanya, cek jika "DATE_1 ... DATE_2"
-                d1, d2 = p.duaTanggal(text)
+            elif (d1 != None and d2 != None):
+                #jika bukan dua-duanya, cek jika "DATE_1 ... DATE_2"                
                 if (d1 == None or d2 == None):
                     response = "<b>[FORMAT DATE_1 ATAU DATE_2 TIDAK DIKENALI]</b>"
                     error = True
@@ -168,8 +169,10 @@ def processInput(text):
                     if (kapanFlag != -1):
                         oneTask = p.oneTaskOnly(body)
                         if (not oneTask):
-                            body = p.translateTanggal(body)
-                    response = "<b>[DAFTAR DEADLINE]</b><br>"+body
+                            tanggal = p.translateTanggal(body)
+                            response = datetime.strptime(tanggal, "%d %m %Y").strftime("%d %B %Y")
+                        else:
+                            response = "<b>[DAFTAR DEADLINE]</b><br>"+body
                 else:
                     response = "Tidak ada"
             log = "B"+now.strftime("%m/%d/%Y %H:%M:%S")+response+"\n"
@@ -199,7 +202,10 @@ def processInput(text):
 
             if (undurFlag != -1):
                 nDate = p.translateTanggal(text)
-                nDate = datetime.strptime(nDate, '%d %m %Y')
+                try:
+                    nDate = datetime.strptime(nDate, '%d %m %Y')
+                except:
+                    nDate = datetime.strptime(nDate, '%d %m %y')
                 for time in times:
                     date = datetime.strptime(time, "%m/%d/%Y").date()
                     for task in tasks[time]:

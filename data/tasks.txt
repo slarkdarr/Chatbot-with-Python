@@ -7,3 +7,5 @@ Ujian---05/11/2021---IF2210---Bab Terakhir
 Ujian---05/14/2021---IF2240---Bab 4
 Tubes---05/17/2021---IF2211---String matching
 Ujian---05/21/2021---IF2240---Bab 5
+Tubes---04/14/2021---IF2211---String Matching
+Kuis---04/22/2021---IF3110---Bab 2 Sampai 3

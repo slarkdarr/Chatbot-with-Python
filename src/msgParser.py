@@ -1,10 +1,10 @@
 import re
 import datetime
 
-formatTanggal1 = '([0-3]?[0-9]) ([a-zA-Z]+) ([0-9]{4})' #tanggal bulan tahun
-formatTanggal2 = '([a-zA-Z]+) ([0-3]?[0-9]) ([0-9]{4})' #bulan tanggal tahun
-formatTanggal3 = '([0-3][0-9])/([0-1][0-9])/([0-9]{4})' #DD/MM/YYYY
-formatTanggal4 = '([0-1][0-9])/([0-3][0-9])/([0-9]{4})' #MM/DD/YYYY, bukan untuk user input
+formatTanggal1 = '([0-3]?[0-9]) ([a-zA-Z]+) ([0-9]{2,4})' #tanggal bulan tahun
+formatTanggal2 = '([a-zA-Z]+) ([0-3]?[0-9]) ([0-9]{2,4})' #bulan tanggal tahun
+formatTanggal3 = '([0-3][0-9])/([0-1][0-9])/([0-9]{2,4})' #DD/MM/YYYY
+formatTanggal4 = '([0-1][0-9])/([0-3][0-9])/([0-9]{2,4})' #MM/DD/YYYY, bukan untuk user input
 formatJenis = '([Tt]ubes|[Tt]ucil|[Kk]uis|[Uu]jian|[Pp]raktikum)'
 
 def bm(text, pattern):
@@ -183,7 +183,7 @@ def translateTanggal(text):
                 tanggalRes = d+" "+m+" "+y
             except:
                 tanggalRes = text
-        
+
     return tanggalRes
 
 def toDateObj(tanggal, datetype=None):
@@ -194,28 +194,46 @@ def toDateObj(tanggal, datetype=None):
             try:
                 date = datetime.datetime.strptime(tanggal, "%d %B %Y")
             except:
-                date = None
+                try:
+                    date = datetime.datetime.strptime(tanggal, "%d %B %y")
+                except:
+                    date = None
         elif (datetype == 2):
             try:
                 date = datetime.datetime.strptime(tanggal, "%B %d %Y")
             except:
-                date = None
-        elif (datetype == 3):
-            try:
-                date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
-            except:
                 try:
-                    date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
+                    date = datetime.datetime.strptime(tanggal, "%B %d %y")
                 except:
                     date = None
+        elif (datetype == 3):
+            try:
+                date = datetime.datetime.strptime(tanggal, "%d %m %Y")
+            except:
+                try:
+                    date = datetime.datetime.strptime(tanggal, "%d %m %y")
+                except:
+                    try:
+                        date = datetime.datetime.strptime(tanggal, "%m %d %Y")
+                    except:                        
+                        try:
+                            date = datetime.datetime.strptime(tanggal, "%m %d %y")
+                        except:
+                            date = None
         elif (datetype == 4):
             try:
                 date = datetime.datetime.strptime(tanggal, "%m/%d/%Y")
             except:
                 try:
-                    date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+                    date = datetime.datetime.strptime(tanggal, "%m/%d/%y")
                 except:
-                    date = None
+                    try:
+                        date = datetime.datetime.strptime(tanggal, "%d/%m/%Y")
+                    except:
+                        try:
+                            date = datetime.datetime.strptime(tanggal, "%d/%m/%y")
+                        except:
+                            date = None
         else:
             date = None
             
@@ -276,8 +294,8 @@ def oneTaskOnly(text):
 def bodyToTanggal(body):
     try:
         tanggal = re.search(formatTanggal4, body)
-        d = tanggal.group(1)
-        m = tanggal.group(2)
+        d = tanggal.group(2)
+        m = tanggal.group(1)
         y = tanggal.group(3)
         
         tanggalRes = d+" "+m+" "+y
